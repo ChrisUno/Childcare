@@ -34,12 +34,6 @@ CREATE TABLE event_status
     e_status VARCHAR(255),
     PRIMARY KEY (id)
 );
-CREATE TABLE relation
-(
-    id INT,
-    relation_to_child VARCHAR(255),
-    PRIMARY KEY (id)
-);
 CREATE TABLE event_location
 (
     id INT,
