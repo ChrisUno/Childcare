@@ -5,8 +5,7 @@ CREATE TABLE user_address
     house_number VARCHAR(255),
     town VARCHAR(255),
     city VARCHAR(255),
-    postcode VARCHAR(255),
-    country VARCHAR(255), 
+    postcode VARCHAR(255), 
     PRIMARY KEY (id)
 );
 CREATE TABLE user_type
@@ -39,8 +38,8 @@ CREATE TABLE event_location
     id INT,
     location_name VARCHAR(255),
     user_address_id VARCHAR(255),
-    PRIMARY KEY (id)
-    FOREIGN KEY (user_address_id) REFERENCES table(user_address),
+    PRIMARY KEY (id),
+    FOREIGN KEY (user_address_id) REFERENCES user_address(id)
 );
 CREATE TABLE user
 (
@@ -50,11 +49,11 @@ CREATE TABLE user
     last_name VARCHAR(255),
     contact_number VARCHAR(255),
     user_address_id VARCHAR(255), 
-    PRIMARY KEY (id)
-    FOREIGN KEY (user_type_id) REFERENCES table(user_type),
-    FOREIGN KEY (user_address_id) REFERENCES table(user_address),
+    PRIMARY KEY (id),
+    FOREIGN KEY (user_type_id) REFERENCES user_type(id),
+    FOREIGN KEY (user_address_id) REFERENCES user_address(id)
 );
-CREATE TABLE select_event
+CREATE TABLE [event]
 (
     id INT,
     event_description VARCHAR(255),
@@ -65,29 +64,29 @@ CREATE TABLE select_event
     event_status_id VARCHAR(255), 
     user_id_event_owner VARCHAR(255), 
     event_location_id VARCHAR(255), 
-    PRIMARY KEY (id)
-    FOREIGN KEY (child_id) REFERENCES table(child_id),
-    FOREIGN KEY (event_type_id) REFERENCES table(event_type),
-    FOREIGN KEY (event_status_id) REFERENCES table(event_status),
-    FOREIGN KEY (event_user_id) REFERENCES table(event_user),
-    FOREIGN KEY (event_location_id) REFERENCES table(event_location),
+    PRIMARY KEY (id),
+    FOREIGN KEY (child_id) REFERENCES child(id),
+    FOREIGN KEY (event_type_id) REFERENCES event_type(id),
+    FOREIGN KEY (event_status_id) REFERENCES event_status(id),
+    FOREIGN KEY (event_user_id) REFERENCES event_user(id),
+    FOREIGN KEY (event_location_id) REFERENCES event_location(id)
 );
 CREATE TABLE event_user
 (
     id INT,
-    user_id VARCHAR(255),
+    [user_id] VARCHAR(255),
     select_event_id INT,
-    PRIMARY KEY (id)
-    FOREIGN KEY (user_id) REFERENCES table(user),
-    FOREIGN KEY (select_event_id) REFERENCES table(select_event),
+    PRIMARY KEY (id),
+    FOREIGN KEY ([user_id]) REFERENCES user(id),
+    FOREIGN KEY (event_id) REFERENCES [event](id)
 );
 CREATE TABLE user_child
 (
     id INT,
-    user_id INT,
+    [user_id] INT,
     child_id INT,
-    relation_id INT,
-    FOREIGN KEY (user_id) REFERENCES table(user),
-    FOREIGN KEY (child_id) REFERENCES table(child),
-    FOREIGN KEY (relation_id) REFERENCES table(relation),
+    user_type INT,
+    FOREIGN KEY ([user_id]) REFERENCES user(id),
+    FOREIGN KEY (child_id) REFERENCES child(id),
+    FOREIGN KEY (user_type) REFERENCES user_type(id)
 );
