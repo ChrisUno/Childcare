@@ -34,18 +34,27 @@ An application that provides clear information on where the child is, who theyre
 erDiagram
           GUARDIAN ||--|{ EVENT : "creates"
           GUARDIAN ||--|{ CHILD : "creates"
-          GUARDIAN ||--|{ GUARDIAN_TYPE : "creates"
-          GUARDIAN ||--|| GUARDIAN_ADDRESS : "creates"
+          GUARDIAN }|--|{ GUARDIAN_TYPE : "contains"
+          GUARDIAN ||--|{ GUARDIAN_ADDRESS : "creates"
           GUARDIAN ||--|{ EVENT_GUARDIAN : "creates"
           GUARDIAN ||--|{ EVENT_LOCATION : "creates"
-          EVENT ||--|{ EVENT_TYPE : "creates"
-          EVENT ||--|{ EVENT_STATUS : "creates"
+          EVENT }|--|{ EVENT_TYPE : "contains"
+          EVENT }|--|{ EVENT_STATUS : "contains"
           EVENT }|--|| EVENT_GUARDIAN : "uses"
-          EVENT }|--|| EVENT_LOCATION : "uses"
-          EVENT }|--|| CONTACT_DETAILS : "uses"
-          EVENT }|--|| CHILD : "uses"
-          EVENT }|--|| GUARDIAN : "uses"
-          GUARDIAN }|--|{ CONTACT_DETAILS : "contains"
+          EVENT }|--|{ EVENT_LOCATION : "contains"
+          EVENT }|--|| EVENT_TYPE : "uses"
+          EVENT }|--|| EVENT_STATUS : "uses"
+          EVENT }|--|| GUARDIAN_ADDRESS : "uses"
+          EVENT }|--|| GUARDIAN_TYPE : "uses"
+          EVENT_LOCATION }|--|| GUARDIAN_ADDRESS : "uses"
+          EVENT_LOCATION }|--|| EVENT : "uses"
+          GUARDIAN_CHILD }|--|| GUARDIAN : "uses"
+          GUARDIAN_CHILD }|--|| GUARDIAN_TYPE : "uses"
+          GUARDIAN_CHILD }|--|| CHILD : "uses"
+          EVENT_GUARDIAN }|--|{ EVENT : "contains"
+          EVENT_GUARDIAN }|--|{ GUARDIAN : "contains"
+          
+          GUARDIAN }|--|{ CONTACT_NUMBER : "contains"
           GUARDIAN ||--|{ EVENT : "runs"
 ```
 
@@ -106,7 +115,6 @@ erDiagram
         int Id
         string description
     }
-    }
     EVENT_STATUS {
         int Id
         string description
@@ -122,6 +130,6 @@ erDiagram
     GUARDIAN }|--|| EVENT_LOCATION: "makes"
     EVENT }|--|| CHILD : "uses"
     EVENT }|--|| GUARDIAN : "uses"
-    //EVENT }|--|{ POOL : "contains"
+    EVENT }|--|{ POOL : "contains"
 
 ```
