@@ -4,10 +4,10 @@ An application that shows a daily schedule of the childs activities, guardian pr
 With each guardian that has time with the child would have an account providing their details.
 
 ## Goals
--Simple, easy to use tool
--Manage accounts of Parents, Friends, Guardians, locations
--Provide a traceable daily Rota/timeline with ability to edit
--Ability to communicate amongst accounts with ease
+-  Simple, easy to use tool
+-  Manage accounts of Parents, Friends, Guardians, locations
+-  Provide a traceable daily Rota/timeline with ability to edit
+-  Ability to communicate amongst accounts with ease
 
 ## Solution
 An application that provides clear information on where the child is, who theyre with and where theyre going.
