@@ -34,10 +34,19 @@ An application that provides clear information on where the child is, who theyre
 erDiagram
           GUARDIAN ||--|{ EVENT : "creates"
           GUARDIAN ||--|{ CHILD : "creates"
-          GUARDIAN ||--|| Contact Details : "creates"
-          EVENT }|--|| Contact Details : "uses"
-          GUARDIAN }|--|{ Contact Details : "contains"
-          GUARDIAN ||--|{ Event : "runs"
+          GUARDIAN ||--|{ GUARDIAN_TYPE : "creates"
+          GUARDIAN ||--|| GUARDIAN_ADDRESS : "creates"
+          GUARDIAN ||--|{ EVENT_GUARDIAN : "creates"
+          GUARDIAN ||--|{ EVENT_LOCATION : "creates"
+          EVENT ||--|{ EVENT_TYPE : "creates"
+          EVENT ||--|{ EVENT_STATUS : "creates"
+          EVENT }|--|| EVENT_GUARDIAN : "uses"
+          EVENT }|--|| EVENT_LOCATION : "uses"
+          EVENT }|--|| CONTACT_DETAILS : "uses"
+          EVENT }|--|| CHILD : "uses"
+          EVENT }|--|| GUARDIAN : "uses"
+          GUARDIAN }|--|{ CONTACT_DETAILS : "contains"
+          GUARDIAN ||--|{ EVENT : "runs"
 ```
 
 ## ERD 
@@ -109,7 +118,7 @@ erDiagram
     EVENT ||--|| EVENT_GUARDIAN: "has"
     EVENT ||--|| EVENT_TYPE: "has"
     EVENT ||--|| EVENT_STATUS: "has"
-    GUARDIAN_TYPE ||--|{ EVENT: "creates"
+    GUARDIAN TYPE ||--|{ EVENT: "creates"
     GUARDIAN }|--|| EVENT_LOCATION: "makes"
     EVENT }|--|| CHILD : "uses"
     EVENT }|--|| GUARDIAN : "uses"
