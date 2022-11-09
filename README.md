@@ -34,27 +34,24 @@ An application that provides clear information on where the child is, who theyre
 erDiagram
           GUARDIAN ||--|{ EVENT : "creates"
           GUARDIAN ||--|{ CHILD : "creates"
-          GUARDIAN }|--|{ GUARDIAN_TYPE : "contains"
+          GUARDIAN }|--|{ GUARDIAN_TYPES : "contains"
           GUARDIAN ||--|{ GUARDIAN_ADDRESS : "creates"
           GUARDIAN ||--|{ EVENT_GUARDIAN : "creates"
           GUARDIAN ||--|{ EVENT_LOCATION : "creates"
-          EVENT }|--|{ EVENT_TYPE : "contains"
+          EVENT }|--|{ EVENT_TYPES : "contains"
           EVENT }|--|{ EVENT_STATUS : "contains"
           EVENT }|--|| EVENT_GUARDIAN : "uses"
           EVENT }|--|{ EVENT_LOCATION : "contains"
-          EVENT }|--|| EVENT_TYPE : "uses"
+          EVENT }|--|| EVENT_TYPES : "uses"
           EVENT }|--|| EVENT_STATUS : "uses"
           EVENT }|--|| GUARDIAN_ADDRESS : "uses"
           EVENT }|--|| GUARDIAN_TYPE : "uses"
           EVENT_LOCATION }|--|| GUARDIAN_ADDRESS : "uses"
-          EVENT_LOCATION }|--|| EVENT : "uses"
           GUARDIAN_CHILD }|--|| GUARDIAN : "uses"
           GUARDIAN_CHILD }|--|| GUARDIAN_TYPE : "uses"
           GUARDIAN_CHILD }|--|| CHILD : "uses"
           EVENT_GUARDIAN }|--|{ EVENT : "contains"
           EVENT_GUARDIAN }|--|{ GUARDIAN : "contains"
-          
-          GUARDIAN }|--|{ CONTACT_NUMBER : "contains"
           GUARDIAN ||--|{ EVENT : "runs"
 ```
 
@@ -111,25 +108,31 @@ erDiagram
         string city
         string postcode
     }
-    EVENT_TYPE {
+    EVENT_TYPES {
         int Id
         string description
+    }
+    EVENT_LOCATION {
+        int Id
+        string location_name
+        int user_address_id
     }
     EVENT_STATUS {
         int Id
         string description
     }
     GUARDIAN ||--|{ GUARDIAN_CHILD: "has"
-    GUARDIAN ||--|{ GUARDIAN_TYPE: "has"
+    GUARDIAN ||--|{ GUARDIAN_TYPES: "has"
     GUARDIAN ||--|{ GUARDIAN_ADDRESS: "has"
     EVENT ||--|| EVENT_LOCATION: "has"
     EVENT ||--|| EVENT_GUARDIAN: "has"
-    EVENT ||--|| EVENT_TYPE: "has"
+    EVENT ||--|| EVENT_TYPES: "has"
     EVENT ||--|| EVENT_STATUS: "has"
-    GUARDIAN TYPE ||--|{ EVENT: "creates"
+    GUARDIAN ||--|{ EVENT: "creates"
     GUARDIAN }|--|| EVENT_LOCATION: "makes"
     EVENT }|--|| CHILD : "uses"
+    GUARDIAN_ADDRESS }|--|| GUARDIAN : "uses"
     EVENT }|--|| GUARDIAN : "uses"
-    EVENT }|--|{ POOL : "contains"
+    EVENT }|--|| GUARDIAN : "uses"
 
 ```
