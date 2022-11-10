@@ -18,8 +18,8 @@ An application that provides clear information on where the child is, who theyre
 
 -   Create a Parent Account & Password
 -   Create a Guardian
--   Create an Location
--   Create an Activity
+-   Create a Location
+-   Create an Event
 -   Daily calendar to track appointments, Activities.
 -   Ability to update, edit and remove appointments and activities.
 
