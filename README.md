@@ -48,7 +48,7 @@ erDiagram
           EVENT }|--|| GUARDIAN_TYPE : "uses"
           EVENT_LOCATION }|--|| GUARDIAN_ADDRESS : "uses"
           GUARDIAN_CHILD }|--|| GUARDIAN : "uses"
-          GUARDIAN_CHILD }|--|| GUARDIAN_TYPE : "uses"
+          GUARDIAN_CHILD }|--|| GUARDIAN_TYPES : "uses"
           GUARDIAN_CHILD }|--|| CHILD : "uses"
           EVENT_GUARDIAN }|--|{ EVENT : "contains"
           EVENT_GUARDIAN }|--|{ GUARDIAN : "contains"
@@ -68,7 +68,7 @@ erDiagram
         int contact_number
         string user_address_id
     }
-    GUARDIAN_TYPE {
+    GUARDIAN_TYPES {
         int id
         string description
     }
@@ -124,6 +124,7 @@ erDiagram
     GUARDIAN ||--|{ GUARDIAN_CHILD: "has"
     GUARDIAN ||--|{ GUARDIAN_TYPES: "has"
     GUARDIAN ||--|{ GUARDIAN_ADDRESS: "has"
+    GUARDIAN ||--|{ CHILD: "creates"
     EVENT ||--|| EVENT_LOCATION: "has"
     EVENT ||--|| EVENT_GUARDIAN: "has"
     EVENT ||--|| EVENT_TYPES: "has"
@@ -132,7 +133,7 @@ erDiagram
     GUARDIAN }|--|| EVENT_LOCATION: "makes"
     EVENT }|--|| CHILD : "uses"
     GUARDIAN_ADDRESS }|--|| GUARDIAN : "uses"
-    EVENT }|--|| GUARDIAN : "uses"
-    EVENT }|--|| GUARDIAN : "uses"
+    EVENT }|--|| GUARDIAN_CHILD : "uses"
+    EVENT }|--|| GUARDIAN_ADDRESS : "uses"
 
 ```
