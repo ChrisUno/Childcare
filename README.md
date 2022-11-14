@@ -34,25 +34,13 @@ An application that provides clear information on where the child is, who theyre
 erDiagram
           guardians ||--|{ events : "creates"
           guardians ||--|{ children : "creates"
-          GUARDIAN }|--|{ GUARDIAN_TYPES : "contains"
-          GUARDIAN ||--|{ GUARDIAN_ADDRESS : "creates"
-          GUARDIAN ||--|{ EVENT_GUARDIAN : "creates"
-          GUARDIAN ||--|{ EVENT_LOCATION : "creates"
-          EVENT }|--|{ EVENT_TYPES : "contains"
-          EVENT }|--|{ EVENT_STATUS : "contains"
-          EVENT }|--|| EVENT_GUARDIAN : "uses"
-          EVENT }|--|{ EVENT_LOCATION : "contains"
-          EVENT }|--|| EVENT_TYPES : "uses"
-          EVENT }|--|| EVENT_STATUS : "uses"
-          EVENT }|--|| GUARDIAN_ADDRESS : "uses"
-          EVENT }|--|| GUARDIAN_TYPE : "uses"
-          EVENT_LOCATION }|--|| GUARDIAN_ADDRESS : "uses"
-          GUARDIAN_CHILD }|--|| GUARDIAN : "uses"
-          GUARDIAN_CHILD }|--|| GUARDIAN_TYPES : "uses"
-          GUARDIAN_CHILD }|--|| CHILD : "uses"
-          EVENT_GUARDIAN }|--|{ EVENT : "contains"
-          EVENT_GUARDIAN }|--|{ GUARDIAN : "contains"
-          GUARDIAN ||--|{ EVENT : "runs"
+          guardians ||--|{ addresses : "creates"
+          guardians ||--|{ relationship : "creates"
+          guardians ||--|{ users : "creates"
+          events }|--|{ addresses : "contains"
+          children }|--|{ user_id : "contains"
+          user }|--|{ addresses : "contains"
+          
 ```
 
 ## ERD 
