@@ -85,7 +85,7 @@ erDiagram
         int addresses_id
         string description
     }
-    event_guardian_children {
+    events_guardians_children {
         int events_id
         int children_id
         int addresses_id
@@ -113,5 +113,8 @@ erDiagram
     guardians_children }|--|| children: "uses"
     guardians_children }|--|| addresses: "uses"
     users }|--|| addresses: "uses"
+    event_guardians_children }|--|| guardians: "uses"
+    event_guardians_children }|--|| events: "uses"
+    event_guardians_children }|--|| children: "uses"
 
 ```
