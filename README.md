@@ -66,7 +66,7 @@ erDiagram
         int user_id
         int contact_number
     }
-    relationships {
+    relationship {
         int id
         string description
     }
@@ -78,7 +78,7 @@ erDiagram
         int Id
         int guardians_id
         int children_id
-        int relationships_id
+        int relationship_id
     }
     events {
         int id
@@ -112,6 +112,7 @@ erDiagram
     guardians_children }|--|| guardians: "uses"
     guardians_children }|--|| children: "uses"
     guardians_children }|--|| addresses: "uses"
+    guardians_children }|--|| relationship: "uses"
     users }|--|| addresses: "uses"
     events_guardians_children }|--|| guardians: "uses"
     events_guardians_children }|--|| events: "uses"
