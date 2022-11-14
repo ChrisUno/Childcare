@@ -60,47 +60,37 @@ erDiagram
 %%{init: {'theme': 'dark' } }%%
 
 erDiagram
-    GUARDIAN {
+
+    guardians {
         int Id
-        string guardian_type_id
-        string first_name
-        string last_name
+        string user_id
         int contact_number
-        string user_address_id
     }
-    GUARDIAN_TYPES {
+    relationship {
         int id
         string description
     }
-    CHILD {
+    child {
         int id
-        string first_name
-        string last_name
-        string description
+        int user_id
     }
-    GUARDIAN_CHILD {
+    guardian_child {
         int Id
         int guardian_id
         int child_id
-        int guardian_type
+        int relationship_id
     }
-    EVENT {
-        int Id
+    event {
+        int id
+        int address_id
         string description
-        timestamp start_time
-        timestamp finish_time
+    }
+    event_guardian_child {
+        int event_id
         int child_id
-        int event_type_id
-        int event_status_id
-        int created_by_id
-        int event_location_id
+        int address_id
     }
-    EVENT_GUARDIAN {
-        int Id
-        int User_Id
-        int Event_Id
-    }
-    GUARDIAN_ADDRESS {
+    address {
         int Id
         string street_name
         string house_number
@@ -108,20 +98,14 @@ erDiagram
         string city
         string postcode
     }
-    EVENT_TYPES {
+    user {
         int Id
-        string description
+        string first_name
+        string last_name
+        int address_id
     }
-    EVENT_LOCATION {
-        int Id
-        string location_name
-        int user_address_id
-    }
-    EVENT_STATUS {
-        int Id
-        string description
-    }
-    GUARDIAN ||--|{ GUARDIAN_CHILD: "has"
+
+    GUARDIANS ||--|{ GUARDIAN_CHILD: "has"
     GUARDIAN ||--|{ GUARDIAN_TYPES: "has"
     GUARDIAN ||--|{ GUARDIAN_ADDRESS: "has"
     GUARDIAN ||--|{ CHILD: "creates"
