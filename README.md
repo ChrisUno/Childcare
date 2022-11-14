@@ -32,8 +32,8 @@ An application that provides clear information on where the child is, who theyre
 ## Domain Model
 ``` mermaid
 erDiagram
-          GUARDIAN ||--|{ EVENT : "creates"
-          GUARDIAN ||--|{ CHILD : "creates"
+          guardians ||--|{ events : "creates"
+          guardians ||--|{ children : "creates"
           GUARDIAN }|--|{ GUARDIAN_TYPES : "contains"
           GUARDIAN ||--|{ GUARDIAN_ADDRESS : "creates"
           GUARDIAN ||--|{ EVENT_GUARDIAN : "creates"
@@ -63,34 +63,34 @@ erDiagram
 
     guardians {
         int Id
-        string user_id
+        int user_id
         int contact_number
     }
-    relationship {
+    relationships {
         int id
         string description
     }
-    child {
+    children {
         int id
-        int user_id
+        int users_id
     }
-    guardian_child {
+    guardians_children {
         int Id
-        int guardian_id
-        int child_id
-        int relationship_id
+        int guardians_id
+        int children_id
+        int relationships_id
     }
-    event {
+    events {
         int id
-        int address_id
+        int addresses_id
         string description
     }
-    event_guardian_child {
-        int event_id
-        int child_id
-        int address_id
+    event_guardian_children {
+        int events_id
+        int children_id
+        int addresses_id
     }
-    address {
+    addresses {
         int Id
         string street_name
         string house_number
@@ -98,26 +98,20 @@ erDiagram
         string city
         string postcode
     }
-    user {
+    users {
         int Id
         string first_name
         string last_name
-        int address_id
+        int addresses_id
     }
 
-    GUARDIANS ||--|{ GUARDIAN_CHILD: "has"
-    GUARDIAN ||--|{ GUARDIAN_TYPES: "has"
-    GUARDIAN ||--|{ GUARDIAN_ADDRESS: "has"
-    GUARDIAN ||--|{ CHILD: "creates"
-    EVENT ||--|| EVENT_LOCATION: "has"
-    EVENT ||--|| EVENT_GUARDIAN: "has"
-    EVENT ||--|| EVENT_TYPES: "has"
-    EVENT ||--|| EVENT_STATUS: "has"
-    GUARDIAN ||--|{ EVENT: "creates"
-    GUARDIAN }|--|| EVENT_LOCATION: "makes"
-    EVENT }|--|| CHILD : "uses"
-    GUARDIAN_ADDRESS }|--|| GUARDIAN : "uses"
-    EVENT }|--|| GUARDIAN_CHILD : "uses"
-    EVENT }|--|| GUARDIAN_ADDRESS : "uses"
+    guardians ||--|{ children: "creates"
+    children }|--|| users: "uses"
+    events }|--|| adresses: "uses"
+    guardians }|--|| users: "uses"
+    guardians_children }|--|| guardians: "uses"
+    guardians_children }|--|| children: "uses"
+    guardians_children }|--|| addresses: "uses"
+    users }|--|| addresses: "uses"
 
 ```
