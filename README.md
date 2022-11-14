@@ -107,7 +107,7 @@ erDiagram
 
     guardians ||--|{ children: "creates"
     children }|--|| users: "uses"
-    events }|--|| adresses: "uses"
+    events }|--|| addresses: "uses"
     guardians }|--|| users: "uses"
     guardians_children }|--|| guardians: "uses"
     guardians_children }|--|| children: "uses"
