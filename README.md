@@ -39,7 +39,7 @@ erDiagram
           guardians ||--|{ users : "creates"
           events }|--|{ addresses : "contains"
           children }|--|{ user_id : "contains"
-          user }|--|{ addresses : "contains"
+          users }|--|{ addresses : "contains"
           
 ```
 
