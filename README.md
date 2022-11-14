@@ -113,8 +113,8 @@ erDiagram
     guardians_children }|--|| children: "uses"
     guardians_children }|--|| addresses: "uses"
     users }|--|| addresses: "uses"
-    event_guardians_children }|--|| guardians: "uses"
-    event_guardians_children }|--|| events: "uses"
-    event_guardians_children }|--|| children: "uses"
+    events_guardians_children }|--|| guardians: "uses"
+    events_guardians_children }|--|| events: "uses"
+    events_guardians_children }|--|| children: "uses"
 
 ```
