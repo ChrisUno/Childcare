@@ -421,6 +421,7 @@ Response
 GET /events/{id}/addresses Returns event address
 
 Response
+[
 {
   “id”: 2,
   “description”:"Playdate as host",
@@ -624,11 +625,292 @@ Response
 
 GET /events/addresses Returns all events addresses
 
-GET /users/{id}/addresses Returns Single users address
+{
+  “description”:"Playdate as guest",
+  “events_time”:2020-10-05 06:00:00.000,
+  "addresses": [{
+  "address_line_1": 4 Windslow Drive,
+  "address_line_2": Carrickfergus,
+  "County": Antrim,
+  "City": Belfast,
+  "postcode": BT389BB
+  }]
+},
 
+{
+  “description”:"Park visit",
+  “events_time”:2020-10-09 10:00:00.000,
+  "addresses": [{
+  "address_line_1": Marine Gardens,
+  "address_line_2": Carrickfergus,
+  "County": Antrim,
+  "City": Belfast,
+  "postcode": BT387UP
+  }]
+},
+{
+  “description”:"Birthday Party",
+  “events_time”:2020-10-11 12:00:00.000,
+  "addresses": [{
+  "address_line_1": Airtastic,
+  "address_line_2": 38 Mill road Newtownabbey,
+  "County": Antrim,
+  "City": Belfast,
+  "postcode": BT367BE
+  }]
+},
+{
+  “description”:"Restaurant",
+  “events_time”:2020-10-13 14:00:00.000,
+  "addresses": [{
+  "address_line_1": Ownies,
+  "address_line_2": 16-18 Joymount Carrickfergus,
+  "County": Antrim,
+  "City": Belfast,
+  "postcode": BT387DN
+  },
+  {
+  “description”:"Cafe",
+  “events_time”:2020-10-13 14:00:00.000,
+  "addresses": [{
+  "address_line_1": Season,
+  "address_line_2": B90,
+  "County": Carrickfergus,
+  "City": Belfast,
+  "postcode": BT389DQ
+  },
+  {
+  “description”:"Softplay",
+  “events_time”:2020-10-13 14:00:00.000,
+  "addresses": [{
+  "address_line_1": Airtastic,
+  "address_line_2": 38 Mill road Newtownabbey,
+  "County": Antrim,
+  "City": Belfast,
+  "postcode": BT367BE
+  },
+  {
+  “description”:"Babysit",
+  “events_time”:2020-10-19 20:00:00.000,
+  "addresses": [{
+  "address_line_1": 35 Chichester square,
+  "address_line_2": Carrickfergus,
+  "County": Antrim,
+  "City": Belfast,
+  "postcode": BT388JU
+  },
+  {
+  “description”:"Childmind",
+  “events_time”:2020-10-21 22:00:00.000,
+  "addresses": [{
+  "address_line_1": 19 Loughview Village,
+  "address_line_2": Carrickfergus,
+  "County": Antrim,
+  "City": Belfast,
+  "postcode": BT387PD
+  },
+  {
+  “description”:"Theatre",
+  “events_time”:2020-10-24 00:00:00.000,
+  "addresses": [{
+  "address_line_1": Grand Opera House,
+  "address_line_2": 2-4,
+  "County":  Great Victoria St,
+  "City": Belfast,
+  "postcode": BT27HR
+  },
+  {
+  “description”:"Open farm",
+  “events_time”:2020-10-01 02:00:00.000,
+  "addresses": [{
+  "address_line_1": Streamvale Open Farm,
+  "address_line_2": 38,
+  "County":  Ballyhanwood Rd,
+  "City": Belfast,
+  "postcode": BT57SN
+  },
+  {
+  “description”:"aquarium",
+  “events_time”:2020-10-03 04:00:00.000,
+  "addresses": [{
+  "address_line_1": Exploris Aquarium,
+  "address_line_2":  1 The RopeWalk,
+  "County": Portaferry,
+  "City": Newtownards,
+  "postcode": BT221NZ
+  },
+  {
+  “description”:"Family visit",
+  “events_time”:2020-10-06 07:00:00.000,
+  "addresses": [{
+  "address_line_1": 5 Bluefield way,
+  "address_line_2":  Carrickfergus,
+  "County": Antrim,
+  "City": Belfast,
+  "postcode": BT387UB
+  },
+  {
+  “description”:"Seasonal occasion",
+  “events_time”:2020-10-08 09:00:00.000,
+  "addresses": [{
+  "address_line_1": Ulster Folk & Transport,
+  "address_line_2":   museum,
+  "County": Cultra,
+  "City": Holywood,
+  "postcode": BT18 0EU
+  },
+  {
+  “description”:"Sport practice",
+  “events_time”:2020-10-10 11:00:00.000,
+  "addresses": [{
+  "address_line_1": Amphitheatre,
+  "address_line_2":   Wellness Centre,
+  "County": Prince William Way,
+  "City": Carrickfergus,
+  "postcode": BT387HP
+  },
+  {
+  “description”:"swimming",
+  “events_time”:2020-10-12 13:00:00.000,
+  "addresses": [{
+  "address_line_1": Amphitheatre,
+  "address_line_2":   Wellness Centre,
+  "County": Prince William Way,
+  "City": Carrickfergus,
+  "postcode": BT387HP
+  },
+  ]
+},
+
+
+GET /users/{id}/addresses Returns Single users address
+[
+{
+  “id”:"1",
+  “first_name”:Chris,
+  "last_name":Crawford,
+  "addresses": [{
+  "address_id": 1,
+  "address_line_1": 8 Rathmoyle Park West,
+  "address_line_2": Carrickfergus,
+  "County": Antrim,
+  "City": Belfast,
+  "postcode": BT387NG
+  }]
+},
+]
 GET /users/addresses Returns all users addresses
 
+[
+{
+“id”:"1",
+  “first_name”:Chris,
+  "last_name":Crawford,
+  "addresses": [{
+  "address_id": 1,
+  "address_line_1": 8 Rathmoyle Park West,
+  "address_line_2": Carrickfergus,
+  "County": Antrim,
+  "City": Belfast,
+  "postcode": BT387NG
+  }]
+},
+{
+“id”:"2",
+  “first_name”:Lauren,
+  "last_name":Lavery,
+  "addresses": [{
+  "address_id": 1
+  "address_line_1": 8 Rathmoyle Park West,
+  "address_line_2": Carrickfergus,
+  "County": Antrim,
+  "City": Belfast,
+  "postcode": BT387NG
+  }]
+},
+{
+“id”:"3",
+  “first_name”:Marylyn,
+  "last_name":Crawford,
+  "addresses": [{
+  "address_id": 2,
+  "address_line_1": 5 Bluefield way,
+  "address_line_2": Carrickfergus,
+  "County": Antrim,
+  "City": Belfast,
+  "postcode": BT387UB
+  }]
+},
+{
+“id”:"4",
+  “first_name”:Stella,
+  "last_name":Lavery,
+  "addresses": [{
+  "address_id": 3,
+  "address_line_1": 35 Chichester square,
+  "address_line_2": Carrickfergus,
+  "County": Antrim,
+  "City": Belfast,
+  "postcode": BT388JU
+  }]
+},
+{
+“id”:"5",
+  “first_name”:Amy,
+  "last_name":McAteer,
+  "addresses": [{
+  "address_id": 7,
+  "address_line_1": 19 Loughview Village,
+  "address_line_2": Carrickfergus,
+  "County": Antrim,
+  "City": Belfast,
+  "postcode": BT387PD
+  }]
+},
+{
+“id”:"6",
+  “first_name”:Laura,
+  "last_name":Hughes,
+  "addresses": [{
+  "address_id": 15
+  "address_line_1": 4 Windslow Drive,
+  "address_line_2": Carrickfergus,
+  "County": Antrim,
+  "City": Belfast,
+  "postcode": BT389BB
+  }]
+},
+{
+“id”:"7",
+  “first_name”:Luca,
+  "last_name":Crawford
+  "addresses": [{
+  "address_id": 1
+  "address_line_1": 8 Rathmoyle Park West,
+  "address_line_2": Carrickfergus,
+  "County": Antrim,
+  "City": Belfast,
+  "postcode": BT387NG
+  }]
+},
+{
+“id”:"8",
+  “first_name”:Unknown,
+  "last_name":Crawford
+  "addresses": [{
+  "address_id": 1
+  "address_line_1": 8 Rathmoyle Park West,
+  "address_line_2": Carrickfergus,
+  "County": Antrim,
+  "City": Belfast,
+  "postcode": BT387NG
+  }]
+},
+]
+
 GET /Guardians/{id}/children/{id}/relationship/ Returns the guardians relationship to child
+
+
 
 GET /users/guardians
 
