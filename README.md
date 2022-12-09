@@ -118,11 +118,21 @@ Response
 [
   {
     "id": 1,
+    "events_time":2020-10-05 14:01:10.000,
     "description": "Playdate as guest",
+    "children": [
+    {"id": 1,
+    "first_name": @Luca
+    }
   },
   {
     "id": 2,
+    
     "description": "Playdate as host",
+    "children": [
+    {"id": 1,
+    "first_name": @Luca
+    }
   },
   {
     "id": 3,
@@ -181,6 +191,450 @@ Response
     "description": "swimming",
   }
 ]
+
+
+GET /events/{id} Returns a single event
+
+Response
+[
+{
+    "id": 1,
+    "events_time":2020-10-05 14:01:10.000,
+    "description": "Playdate as guest",
+  },
+]
+
+GET /events/{id}/children Returns a single event with both children
+Response
+[
+ {
+  “id”: 1,
+  “events_time”:2020-10-05 14:01:10.000,
+  “description”: “Playdate as guest”,
+  “children”: [
+  {“id”: 1,
+  “first_name”: @Luca
+  },
+  {“id”:2,
+  “first_name”: @Unknown
+  }]
+ },
+]
+
+GET /children/events/{id} Returns multiple events a single child is scheduled to attend
+Response
+[
+ {
+  “id”: 1,
+  “users_id”:7,
+  "description": "Playdate as guest",
+  “events_time”:2020-10-05 06:00:00.000
+  },
+  {
+  “id”: 2,
+  “users_id”:7,
+  "description": "Playdate as host",
+  “events_time”:2020-10-07 08:00:00.000
+  },
+ {
+  “id”: 3,
+  “users_id”:7,
+  "description": "Park visit",
+  “events_time”:2020-10-09 10:00:00.000
+  },
+ {
+  “id”: 4,
+  “users_id”:7,
+  "description": "Birthday Party",
+  “events_time”:2020-10-11 12:00:00.000
+  },
+  {
+  “id”: 5,
+  “users_id”:7,
+  "description": "Restaurant",
+  “events_time”:2020-10-15 16:00:00-00
+  },
+ {
+  “id”: 6,
+  “users_id”:7,
+  "description": "Cafe",
+  “events_time”:2020-10-15 16:00:00.000
+  },
+ {
+  “id”: 7,
+  “users_id”:7,
+  "description": "Softplay",
+  “events_time”:2020-10-17 18:00:00.000
+  },
+  {
+  “id”: 8,
+  “users_id”:7,
+  "description": "Babysit",
+  “events_time”:2020-10-19 20:00:00.000
+  },
+  {
+  “id”: 9,
+  “users_id”:7,
+  "description": "Childmind",
+  “events_time”:2020-10-21 22:00:00.000
+  },
+  {
+  “id”: 10,
+  “users_id”:7,
+  "description": "Theatre",
+  “events_time”:2020-10-24 00:00:00.000
+  },
+  {
+  “id”: 11,
+  “users_id”:7,
+  "description": "Open farm",
+  “events_time”:2020-10-01 02:00:00.000
+  },
+ {
+  “id”: 12,
+  “users_id”:7,
+  "description": "aquarium",
+  “events_time”:2020-10-03 04:00:00.000
+  },
+  {
+  “id”: 13,
+  “users_id”:7,
+  "description": "Family visit",
+  “events_time”:2020-10-06 07:00:00.000
+  },
+  {
+  “id”: 14,
+  “users_id”:7,
+  "description": "Seasonal occasion",
+  “events_time”:2020-10-17 19:00:00.000
+  },
+ {
+  “id”: 15,
+  “users_id”:7,
+  "description": "Sport practice",
+  “events_time”:2020-10-10 11:00:00.000
+  },
+  {
+  “id”: 16,
+  “users_id”:7,
+  "description": "swimming",
+  “events_time”:2020-10-12 13:00:00.000
+  }
+  {
+  “id”: 1,
+  “users_id”:8,
+  "description": "Playdate as guest",
+  “events_time”:2020-10-05 06:00:00.000
+  },
+  {
+  “id”: 2,
+  “users_id”:8,
+  "description": "Playdate as host",
+  “events_time”:2020-10-07 08:00:00.000
+  },
+ {
+  “id”: 3,
+  “users_id”:8,
+  "description": "Park visit",
+  “events_time”:2020-10-09 10:00:00.000
+  },
+ {
+  “id”: 4,
+  “users_id”:8,
+  "description": "Birthday Party",
+  “events_time”:2020-10-11 12:00:00.000
+  },
+  {
+  “id”: 5,
+  “users_id”:8,
+  "description": "Restaurant",
+  “events_time”:2020-10-15 16:00:00-00
+  },
+ {
+  “id”: 6,
+  “users_id”:8,
+  "description": "Cafe",
+  “events_time”:2020-10-15 16:00:00.000
+  },
+ {
+  “id”: 7,
+  “users_id”:8,
+  "description": "Softplay",
+  “events_time”:2020-10-17 18:00:00.000
+  },
+  {
+  “id”: 8,
+  “users_id”:8,
+  "description": "Babysit",
+  “events_time”:2020-10-19 20:00:00.000
+  },
+  {
+  “id”: 9,
+  “users_id”:8,
+  "description": "Childmind",
+  “events_time”:2020-10-21 22:00:00.000
+  },
+  {
+  “id”: 10,
+  “users_id”:8,
+  "description": "Theatre",
+  “events_time”:2020-10-24 00:00:00.000
+  },
+  {
+  “id”: 11,
+  “users_id”:8,
+  "description": "Open farm",
+  “events_time”:2020-10-01 02:00:00.000
+  },
+ {
+  “id”: 12,
+  “users_id”:8,
+  "description": "aquarium",
+  “events_time”:2020-10-03 04:00:00.000
+  },
+  {
+  “id”: 13,
+  “users_id”:8,
+  "description": "Family visit",
+  “events_time”:2020-10-06 07:00:00.000
+  },
+  {
+  “id”: 14,
+  “users_id”:8,
+  "description": "Seasonal occasion",
+  “events_time”:2020-10-17 19:00:00.000
+  },
+ {
+  “id”: 15,
+  “users_id”:8,
+  "description": "Sport practice",
+  “events_time”:2020-10-10 11:00:00.000
+  },
+  {
+  “id”: 16,
+  “users_id”:8,
+  "description": "swimming",
+  “events_time”:2020-10-12 13:00:00.000
+  }
+]
+
+GET /events/{id}/addresses Returns event address
+
+Response
+{
+  “id”: 2,
+  “description”:"Playdate as host",
+  “events_time”:2020-10-07 08:00:00.000,
+  "addresses": [
+  {"id": 2,
+  "address_line_1": 8 Rathmoyle Park West,
+  "address_line_2": Carrickfergus,
+  "County": Antrim,
+  "City": Belfast,
+  "postcode": BT387NG
+  }]
+},
+
+{
+  “id”: 1,
+  “description”:"Playdate as guest",
+  “events_time”:2020-10-05 06:00:00.000,
+  "addresses": [
+  {"id": 15,
+  "address_line_1": 4 Windslow Drive,
+  "address_line_2": Carrickfergus,
+  "County": Antrim,
+  "City": Belfast,
+  "postcode": BT389BB
+  }]
+},
+
+{
+  “id”: 3,
+  “description”:"Park visit",
+  “events_time”:2020-10-09 10:00:00.000,
+  "addresses": [
+  {"id": 5,
+  "address_line_1": Marine Gardens,
+  "address_line_2": Carrickfergus,
+  "County": Antrim,
+  "City": Belfast,
+  "postcode": BT387UP
+  }]
+},
+{
+  “id”: 4,
+  “description”:"Birthday Party",
+  “events_time”:2020-10-11 12:00:00.000,
+  "addresses": [
+  {"id": 4,
+  "address_line_1": Airtastic,
+  "address_line_2": 38 Mill road Newtownabbey,
+  "County": Antrim,
+  "City": Belfast,
+  "postcode": BT367BE
+  }]
+},
+{
+  “id”: 5,
+  “description”:"Restaurant",
+  “events_time”:2020-10-13 14:00:00.000,
+  "addresses": [
+  {"id": 8,
+  "address_line_1": Ownies,
+  "address_line_2": 16-18 Joymount Carrickfergus,
+  "County": Antrim,
+  "City": Belfast,
+  "postcode": BT387DN
+  },
+  {
+  “id”: 6,
+  “description”:"Cafe",
+  “events_time”:2020-10-13 14:00:00.000,
+  "addresses": [
+  {"id": 9,
+  "address_line_1": Season,
+  "address_line_2": B90,
+  "County": Carrickfergus,
+  "City": Belfast,
+  "postcode": BT389DQ
+  },
+  {
+  “id”: 7,
+  “description”:"Softplay",
+  “events_time”:2020-10-13 14:00:00.000,
+  "addresses": [
+  {"id": 4,
+  "address_line_1": Airtastic,
+  "address_line_2": 38 Mill road Newtownabbey,
+  "County": Antrim,
+  "City": Belfast,
+  "postcode": BT367BE
+  },
+  {
+  “id”: 8,
+  “description”:"Babysit",
+  “events_time”:2020-10-19 20:00:00.000,
+  "addresses": [
+  {"id": 3,
+  "address_line_1": 35 Chichester square,
+  "address_line_2": Carrickfergus,
+  "County": Antrim,
+  "City": Belfast,
+  "postcode": BT388JU
+  },
+  {
+  “id”: 9,
+  “description”:"Childmind",
+  “events_time”:2020-10-21 22:00:00.000,
+  "addresses": [
+  {"id": 7,
+  "address_line_1": 19 Loughview Village,
+  "address_line_2": Carrickfergus,
+  "County": Antrim,
+  "City": Belfast,
+  "postcode": BT387PD
+  },
+  {
+  “id”: 10,
+  “description”:"Theatre",
+  “events_time”:2020-10-24 00:00:00.000,
+  "addresses": [
+  {"id": 10,
+  "address_line_1": Grand Opera House,
+  "address_line_2": 2-4,
+  "County":  Great Victoria St,
+  "City": Belfast,
+  "postcode": BT27HR
+  },
+  {
+  “id”: 11,
+  “description”:"Open farm",
+  “events_time”:2020-10-01 02:00:00.000,
+  "addresses": [
+  {"id": 11,
+  "address_line_1": Streamvale Open Farm,
+  "address_line_2": 38,
+  "County":  Ballyhanwood Rd,
+  "City": Belfast,
+  "postcode": BT57SN
+  },
+  {
+  “id”: 12,
+  “description”:"aquarium",
+  “events_time”:2020-10-03 04:00:00.000,
+  "addresses": [
+  {"id": 6,
+  "address_line_1": Exploris Aquarium,
+  "address_line_2":  1 The RopeWalk,
+  "County": Portaferry,
+  "City": Newtownards,
+  "postcode": BT221NZ
+  },
+  {
+  “id”: 13,
+  “description”:"Family visit",
+  “events_time”:2020-10-06 07:00:00.000,
+  "addresses": [
+  {"id": 2,
+  "address_line_1": 5 Bluefield way,
+  "address_line_2":  Carrickfergus,
+  "County": Antrim,
+  "City": Belfast,
+  "postcode": BT387UB
+  },
+  {
+  “id”: 14,
+  “description”:"Seasonal occasion",
+  “events_time”:2020-10-08 09:00:00.000,
+  "addresses": [
+  {"id": 14,
+  "address_line_1": Ulster Folk & Transport,
+  "address_line_2":   museum,
+  "County": Cultra,
+  "City": Holywood,
+  "postcode": BT18 0EU
+  },
+  {
+  “id”: 15,
+  “description”:"Sport practice",
+  “events_time”:2020-10-10 11:00:00.000,
+  "addresses": [
+  {"id": 12,
+  "address_line_1": Amphitheatre,
+  "address_line_2":   Wellness Centre,
+  "County": Prince William Way,
+  "City": Carrickfergus,
+  "postcode": BT387HP
+  },
+  {
+  “id”: 16,
+  “description”:"swimming",
+  “events_time”:2020-10-12 13:00:00.000,
+  "addresses": [
+  {"id": 12,
+  "address_line_1": Amphitheatre,
+  "address_line_2":   Wellness Centre,
+  "County": Prince William Way,
+  "City": Carrickfergus,
+  "postcode": BT387HP
+  },
+  ]
+},
+
+GET /events/addresses Returns all events addresses
+
+GET /users/{id}/addresses Returns Single users address
+
+GET /users/addresses Returns all users addresses
+
+GET /Guardians/{id}/children/{id}/relationship/ Returns the guardians relationship to child
+
+GET /users/guardians
+
+EVENTS - GUARDIANS - GUARDIANS_CHILDREN - ADDRESSES - CHILDREN - EVENTS_ADDRESSES_CHILDREN - RELATIONSHIP - USERS
+
+
 Relationship
 GET /relationship Return a list of all relationships
 
