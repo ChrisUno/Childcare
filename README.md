@@ -107,10 +107,11 @@ erDiagram
     events_guardians_children }|--|| children: "uses"
 
 ```
+EVENTS - GUARDIANS - GUARDIANS_CHILDREN - ADDRESSES - CHILDREN - EVENTS_ADDRESSES_CHILDREN - RELATIONSHIP - USERS
+```
 
 API Specification
 
-Events
 GET /events Return a list of all events
 
 Response
@@ -624,6 +625,7 @@ Response
 },
 
 GET /events/addresses Returns all events addresses
+Response
 
 {
   “description”:"Playdate as guest",
@@ -784,6 +786,9 @@ GET /events/addresses Returns all events addresses
 
 
 GET /users/{id}/addresses Returns Single users address
+
+Response
+
 [
 {
   “id”:"1",
@@ -799,7 +804,10 @@ GET /users/{id}/addresses Returns Single users address
   }]
 },
 ]
+
 GET /users/addresses Returns all users addresses
+
+Response
 
 [
 {
@@ -910,14 +918,22 @@ GET /users/addresses Returns all users addresses
 
 GET /Guardians/{id}/children/{id}/relationship/ Returns the guardians relationship to child
 
+Response
 
+{
+“id”:"1",
+  “first_name”:Chris,
+  "last_name":Crawford,
+  "children": [{
+  "children_id": 1,
+  "first_name": Luca,
+  "last_name": Crawford
+  }]
+  "relationship" [{
+  "description": Father
+  }]
+},
 
-GET /users/guardians
-
-EVENTS - GUARDIANS - GUARDIANS_CHILDREN - ADDRESSES - CHILDREN - EVENTS_ADDRESSES_CHILDREN - RELATIONSHIP - USERS
-
-
-Relationship
 GET /relationship Return a list of all relationships
 
 Response
@@ -964,65 +980,35 @@ Response
     "description": "Friend"
   }
 ]
-GET /games/users/{userId} Return a list of a user's games
 
-Response
 
-[
-  {
-    "id": 1,
-    "title": "A Game Title",
-    "genre": "The Genre",
-    "platform": "The Platform",
-    "status": "The Status"
-  },
-  {
-    "id": 2,
-    "title": "Another Game Title",
-    "genre": "The Genre",
-    "platform": "The Platform",
-    "status": "The Status"
-  }
-]
-GET /games/{id} Return a game by id
 
-Response
 
-{
-  "id": 1,
-  "title": "A Game Title",
-  "genre": "Racing",
-  "platform": "PS4"
-}
-POST /games/users/{userId} Create a game
+POST /events/users/{id} Create an event
 
 Request
 
 {
-  "title": "A New Game",
-  "genreId": 1,
-  "platformId": 1,
+  "description": "Holiday",
+  "id": 17,
+  "users_id": 1,
   "statusId": 1
 }
-Response - 201 Created
+Response - 201 Created?
 
-USERS
-GET /users/{id} Return a user by id
-
-Response
-
-{
-  "id": 1,
-  "username": "a_user",
-  "enabled": true
-}
 POST /users Create a user
 
 Request
 
 {
-  "username": "a_user",
-  "password": "a_password"
+  "id": "9"
+  "first_name": "Anne",
+  "last_name": "Accident",
+  "address_id": "1",
+  "relationship": [{
+  "id":"5",
+  "description": "sister"
+  }]
 }
 Response - 201 Created
 
@@ -1031,11 +1017,20 @@ PUT /users/{id} Update a user by id
 Request
 
 {
-  "username": "updated_user",
-  "password": "updated_password",
-  "enabled": true
+  "first_name": "Lauren",
+  "last_name": "Crawford",
+  "address_id": 1
 }
+
 DELETE /users/{id} Delete a user by id
+
+Response - 204 No Content
+
+DELETE /event/{id} Delete an event by id
+
+Response - 204 No Content
+
+DELETE /addresses/{id} Delete an address by id
 
 Response - 204 No Content
 
