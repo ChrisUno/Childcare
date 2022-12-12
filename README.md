@@ -991,10 +991,12 @@ Request
 {
   "description": "Holiday",
   "id": 17,
-  "users_id": 1,
-  "statusId": 1
+  "events_time":2020-12-11 12:00:00.000,
+  "users:[{
+  "id":2
+  }]
 }
-Response - 201 Created?
+Response - 201 Created
 
 POST /users Create a user
 
@@ -1033,24 +1035,3 @@ Response - 204 No Content
 DELETE /addresses/{id} Delete an address by id
 
 Response - 204 No Content
-
-Status
-GET /status
-
-POST /status
-
-DELETE /status/{statusId}
-
-Platforms
-GET /platforms
-
-POST /platforms
-
-DELETE /platforms/{platformId}
-
-Genres
-GET /genres
-
-POST /genres
-
-DELETE /genres/{genreId}
