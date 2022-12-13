@@ -72,6 +72,7 @@ erDiagram
         int id
         int addresses_id
         string description
+        timestamp time_slot
     }
     events_guardians_children {
         int events_id
@@ -197,32 +198,31 @@ Response
 GET /events/{id} Returns a single event
 
 Response
-[
 {
     "id": 1,
     "events_time":2020-10-05 14:01:10.000,
-    "description": "Playdate as guest",
+    "description": "Playdate as guest"
   },
-]
 
-GET /events/{id}/children Returns a single event with both children
+
+GET /events/{id}/children Returns a single event with children
 Response
-[
+
  {
   “id”: 1,
   “events_time”:2020-10-05 14:01:10.000,
   “description”: “Playdate as guest”,
   “children”: [
   {“id”: 1,
-  “first_name”: @Luca
+  “first_name”: "Luca"
   },
   {“id”:2,
-  “first_name”: @Unknown
+  “first_name”: "Unknown"
   }]
  },
-]
 
-GET /children/events/{id} Returns multiple events a single child is scheduled to attend
+
+GET /events/children/{id} Returns multiple events a single child is scheduled to attend
 Response
 [
  {
