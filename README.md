@@ -290,8 +290,20 @@ POST /guardian Create a guardian
   "relationship_id": "4"
 }
 
+Response - 201 Created
+
+POST /addresses Create an address
+
+{
+  "address_line_1": "string",
+  "address_line_2": "string",
+  "county": "string",
+  "city": "string",
+  "postcode": "string"
+}
 
 Response - 201 Created
+
 
 PUT /users/{id} Update a user by id
 
