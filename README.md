@@ -171,6 +171,68 @@ Response
   }
 ] 
 
+GET /children  - Returns all children
+ [
+  {
+    "id": "1",
+    "first_name": "string",
+    "last_name": "string",
+    "guardians": [
+      {
+        "id": "1",
+        "first_name": "string",
+        "last_name": "string",
+        "guardian_relationship": {
+          "id": "1",
+          "description": "father"
+        }
+      }
+    ]
+  }
+]
+
+GET /children/{id}  - Returns a single child by ID
+ [
+  {
+    "id": "1",
+    "first_name": "string",
+    "last_name": "string",
+    "guardians": [
+      {
+        "id": "1",
+        "first_name": "string",
+        "last_name": "string",
+        "guardian_relationship": {
+          "id": "1",
+          "description": "father"
+        }
+      }
+    ]
+  }
+]
+
+
+POST /events/{id} Create an event
+
+Request
+
+{
+  "description": "Holiday",
+  "time_slot": "2020-12-11 12:00:00.000",
+  "address_id": "23",
+  "children": [
+    {
+      "id": "2",
+      "guardian": {
+        "id": "4"
+      }
+    }
+  ]
+}
+  
+  
+Response - 201 Created
+
 GET /users/{id} Returns user
 
 Response
@@ -209,125 +271,26 @@ Response
 }
 ]
 
-GET /children  - Returns all children
-
-[
-  {
-    "id": "1",
-    "first_name": "string",
-    "last_name": "string",
-    "guardians": [
-    {
-    "id":"1",
-     "first_name": "string",
-    "last_name": "string",
-    "guardian_relationship": { 
-   "id": "1", 
-    "description":"father"}
-    
-    }
-    ]
-    
-  }
-]
-
-
-GET /Guardians/{id}/children/{id}/relationship/ Returns the guardians relationship to child
-
-Response
-
-{
-“id”:"1",
-  “first_name”:Chris,
-  "last_name":Crawford,
-  "children": [{
-  "children_id": 1,
-  "first_name": Luca,
-  "last_name": Crawford
-  }]
-  "relationship" [{
-  "description": Father
-  }]
-},
-
-GET /relationship Return a list of all relationships
-
-Response
-
-[
-  {
-    "id": 1,
-    "description": "Father"
-  },
-  {
-    "id": 2,
-    "description": "Mother"
-  },
-  {
-    "id": 2,
-    "description": "Grandmother"
-  },
-  {
-    "id": 2,
-    "description": "Grandfather"
-  },
-  {
-    "id": 2,
-    "description": "Sister"
-  },
-  {
-    "id": 2,
-    "description": "Brother"
-  },
-  {
-    "id": 2,
-    "description": "Childminder"
-  },
-  {
-    "id": 2,
-    "description": "Aunt"
-  },
-  {
-    "id": 2,
-    "description": "Uncle"
-  },
-  {
-    "id": 2,
-    "description": "Friend"
-  }
-]
-
-
-
-
-POST /events/users/{id} Create an event
-
-Request
-
-{
-  "description": "Holiday",
-  "id": 17,
-  "events_time":2020-12-11 12:00:00.000,
-  "users:[{
-  "id":2
-  }]
-}
-Response - 201 Created
 
 POST /users Create a user
 
 Request
 
 {
-  "id": "9"
   "first_name": "Anne",
   "last_name": "Accident",
-  "address_id": "1",
-  "relationship": [{
-  "id":"5",
-  "description": "sister"
-  }]
+  "address_id": "1"
 }
+
+POST /guardian Create a guardian
+
+{
+  "child_id": "1"
+  "user_id": "5"
+  "relationship_id": "4"
+}
+
+
 Response - 201 Created
 
 PUT /users/{id} Update a user by id
