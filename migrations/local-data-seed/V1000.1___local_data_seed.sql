@@ -378,3 +378,311 @@ inner join children c on c.id=egc.children_id;
 
 
 
+insert into users (first_name, last_name, address_id) values ('Chris','Crawford',(select id from addresses where address_line_1='8 Rathmoyle Park West'));
+insert into users (first_name, last_name, address_id) values ('Lauren','Lavery',(select id from addresses where address_line_1='8 Rathmoyle Park West'));
+insert into users (first_name, last_name, address_id) values ('Marylyn','Crawford',(select id from addresses where address_line_1='5 Bluefield way'));
+insert into users (first_name, last_name, address_id) values ('Stella','Lavery',(select id from addresses where address_line_1='35 Chichester square'));
+insert into users (first_name, last_name, address_id) values ('Amy','McAteer',(select id from addresses where address_line_1='19 Loughview Village'));
+insert into users (first_name, last_name, address_id) values ('Laura','Hughes',(select id from addresses where address_line_1='4 Windslow Drive'));
+insert into users (first_name, last_name, address_id) values ('Luca','Crawford',(select id from addresses where address_line_1='8 Rathmoyle Park West'));
+insert into users (first_name, last_name, address_id) values ('Unknown','Crawford',(select id from addresses where address_line_1='8 Rathmoyle Park West'));
+
+insert into guardians (user_id, contact_number) values ((select id from users where first_name='Chris'), '07881361286');
+insert into guardians (user_id, contact_number) values ((select id from users where first_name='Lauren'), '07707961688');
+insert into guardians (user_id, contact_number) values ((select id from users where first_name='Marylyn'), '07703528999');
+insert into guardians (user_id, contact_number) values ((select id from users where first_name='Stella'), '07895654035');
+insert into guardians (user_id, contact_number) values ((select id from users where first_name='Amy'), '07891535715');
+insert into guardians (user_id, contact_number) values ((select id from users where first_name='Laura'), '07923356548');
+
+
+insert into children (users_id) values ((select id from users where first_name='Luca'));
+insert into children (users_id) values ((select id from users where first_name='Unknown'));
+
+--Chris,Luca,Father
+
+INSERT INTO guardians_children  (guardians_id, children_id, relationship_id)
+select g.id, c.id, r.id
+from ((select id  from guardians where contact_number = '07881361286')) g,
+((select ch.id  from children ch
+inner join users u on ch.users_id = u.id where u.first_name ='Luca')) c,
+((select id  from relationship  where description ='Father')) r;
+--Lauren, luca, mother
+
+INSERT INTO guardians_children  (guardians_id, children_id, relationship_id)
+select g.id, c.id, r.id
+from ((select id  from guardians where contact_number = '07707961688')) g,
+((select ch.id  from children ch
+inner join users u on ch.users_id = u.id where u.first_name ='Luca')) c,
+((select id  from relationship  where description ='Mother')) r;
+--Marylyn, luca, grandmother
+
+INSERT INTO guardians_children  (guardians_id, children_id, relationship_id)
+select g.id, c.id, r.id
+from ((select id  from guardians where contact_number = '07703528999')) g,
+((select ch.id  from children ch
+inner join users u on ch.users_id = u.id where u.first_name ='Luca')) c,
+((select id  from relationship  where description ='Grandmother')) r;
+--Stella, luca, grandmother
+
+INSERT INTO guardians_children  (guardians_id, children_id, relationship_id)
+select g.id, c.id, r.id
+from ((select id  from guardians where contact_number = '07895654035')) g,
+((select ch.id  from children ch
+inner join users u on ch.users_id = u.id where u.first_name ='Luca')) c,
+((select id  from relationship  where description ='Grandmother')) r;
+--Amy, luca, childminder
+
+INSERT INTO guardians_children  (guardians_id, children_id, relationship_id)
+select g.id, c.id, r.id
+from ((select id  from guardians where contact_number = '07891535715')) g,
+((select ch.id  from children ch
+inner join users u on ch.users_id = u.id where u.first_name ='Luca')) c,
+((select id  from relationship  where description ='Childminder')) r;
+--laura, luca, aunt
+
+INSERT INTO guardians_children  (guardians_id, children_id, relationship_id)
+select g.id, c.id, r.id
+from ((select id  from guardians where contact_number = '07923356548')) g,
+((select ch.id  from children ch
+inner join users u on ch.users_id = u.id where u.first_name ='Luca')) c,
+((select id  from relationship  where description ='Aunt')) r;
+--Chris,Unknown,Father
+
+INSERT INTO guardians_children  (guardians_id, children_id, relationship_id)
+select g.id, c.id, r.id
+from ((select id  from guardians where contact_number = '07881361286')) g,
+((select ch.id  from children ch
+inner join users u on ch.users_id = u.id where u.first_name ='Unknown')) c,
+((select id  from relationship  where description ='Father')) r;
+--Lauren, Unknown, mother
+
+INSERT INTO guardians_children  (guardians_id, children_id, relationship_id)
+select g.id, c.id, r.id
+from ((select id  from guardians where contact_number = '07707961688')) g,
+((select ch.id  from children ch
+inner join users u on ch.users_id = u.id where u.first_name ='Unknown')) c,
+((select id  from relationship  where description ='Mother')) r;
+--Marylyn, Unknown, grandmother
+
+INSERT INTO guardians_children  (guardians_id, children_id, relationship_id)
+select g.id, c.id, r.id
+from ((select id  from guardians where contact_number = '07703528999')) g,
+((select ch.id  from children ch
+inner join users u on ch.users_id = u.id where u.first_name ='Unknown')) c,
+((select id  from relationship  where description ='Grandmother')) r;
+--Stella, Unknown, grandmother
+
+INSERT INTO guardians_children  (guardians_id, children_id, relationship_id)
+select g.id, c.id, r.id
+from ((select id  from guardians where contact_number = '07895654035')) g,
+((select ch.id  from children ch
+inner join users u on ch.users_id = u.id where u.first_name ='Unknown')) c,
+((select id  from relationship  where description ='Grandmother')) r;
+--Amy, Unknown, childminder
+
+INSERT INTO guardians_children  (guardians_id, children_id, relationship_id)
+select g.id, c.id, r.id
+from ((select id  from guardians where contact_number = '07891535715')) g,
+((select ch.id  from children ch
+inner join users u on ch.users_id = u.id where u.first_name ='Unknown')) c,
+((select id  from relationship  where description ='Childminder')) r;
+--laura, Unknown, aunt
+
+INSERT INTO guardians_children  (guardians_id, children_id, relationship_id)
+select g.id, c.id, r.id
+from ((select id  from guardians where contact_number = '07923356548')) g,
+((select ch.id  from children ch inner join users u on ch.users_id = u.id where u.first_name ='Unknown')) c,
+((select id  from relationship  where description ='Aunt')) r;
+
+INSERT INTO events_addresses_children  (events_id, addresses_id, children_id)
+select e.id, a.id, c.id
+from ((select id  from events e where description = 'Playdate as host')) e,
+((select ch.id  from children ch inner join users u on ch.users_id = u.id where u.first_name ='Luca')) c,
+((select id  from addresses  where address_line_1  ='8 Rathmoyle Park West')) a;
+
+INSERT INTO events_addresses_children  (events_id, addresses_id, children_id)
+select e.id, a.id, c.id
+from ((select id  from events e where description = 'Playdate as guest')) e,
+((select ch.id  from children ch inner join users u on ch.users_id = u.id where u.first_name ='Luca')) c,
+((select id  from addresses  where address_line_1  ='4 Windslow Drive')) a;
+
+INSERT INTO events_addresses_children  (events_id, addresses_id, children_id)
+select e.id, a.id, c.id
+from ((select id  from events e where description = 'Park visit')) e,
+((select ch.id  from children ch inner join users u on ch.users_id = u.id where u.first_name ='Luca')) c,
+((select id  from addresses  where address_line_1  ='Marine Gardens')) a;
+
+INSERT INTO events_addresses_children  (events_id, addresses_id, children_id)
+select e.id, a.id, c.id
+from ((select id  from events e where description = 'Birthday Party')) e,
+((select ch.id  from children ch inner join users u on ch.users_id = u.id where u.first_name ='Luca')) c,
+((select id  from addresses  where address_line_1  ='Airtastic')) a;
+
+INSERT INTO events_addresses_children  (events_id, addresses_id, children_id)
+select e.id, a.id, c.id
+from ((select id  from events e where description = 'Cafe')) e,
+((select ch.id  from children ch inner join users u on ch.users_id = u.id where u.first_name ='Luca')) c,
+((select id  from addresses  where address_line_1  ='Season')) a;
+
+INSERT INTO events_addresses_children  (events_id, addresses_id, children_id)
+select e.id, a.id, c.id
+from ((select id  from events e where description = 'Softplay')) e,
+((select ch.id  from children ch inner join users u on ch.users_id = u.id where u.first_name ='Luca')) c,
+((select id  from addresses  where address_line_1  ='Airtastic')) a;
+
+INSERT INTO events_addresses_children  (events_id, addresses_id, children_id)
+select e.id, a.id, c.id
+from ((select id  from events e where description = 'Babysit')) e,
+((select ch.id  from children ch inner join users u on ch.users_id = u.id where u.first_name ='Luca')) c,
+((select id  from addresses  where address_line_1  ='35 Chichester square')) a;
+
+INSERT INTO events_addresses_children  (events_id, addresses_id, children_id)
+select e.id, a.id, c.id
+from ((select id  from events e where description = 'Childmind')) e,
+((select ch.id  from children ch inner join users u on ch.users_id = u.id where u.first_name ='Luca')) c,
+((select id  from addresses  where address_line_1  ='19 Loughview Village')) a;
+
+INSERT INTO events_addresses_children  (events_id, addresses_id, children_id)
+select e.id, a.id, c.id
+from ((select id  from events e where description = 'Theatre')) e,
+((select ch.id  from children ch inner join users u on ch.users_id = u.id where u.first_name ='Luca')) c,
+((select id  from addresses  where address_line_1  ='Grand Opera House')) a;
+
+INSERT INTO events_addresses_children  (events_id, addresses_id, children_id)
+select e.id, a.id, c.id
+from ((select id  from events e where description = 'Open farm')) e,
+((select ch.id  from children ch inner join users u on ch.users_id = u.id where u.first_name ='Luca')) c,
+((select id  from addresses  where address_line_1  ='Streamvale Open Farm')) a;
+
+INSERT INTO events_addresses_children  (events_id, addresses_id, children_id)
+select e.id, a.id, c.id
+from ((select id  from events e where description = 'aquarium')) e,
+((select ch.id  from children ch inner join users u on ch.users_id = u.id where u.first_name ='Luca')) c,
+((select id  from addresses  where address_line_1  ='Exploris Aquarium')) a;
+
+INSERT INTO events_addresses_children  (events_id, addresses_id, children_id)
+select e.id, a.id, c.id
+from ((select id  from events e where description = 'Family visit')) e,
+((select ch.id  from children ch inner join users u on ch.users_id = u.id where u.first_name ='Luca')) c,
+((select id  from addresses  where address_line_1  ='5 Bluefield way')) a;
+
+INSERT INTO events_addresses_children  (events_id, addresses_id, children_id)
+select e.id, a.id, c.id
+from ((select id  from events e where description = 'Seasonal Occasion')) e,
+((select ch.id  from children ch inner join users u on ch.users_id = u.id where u.first_name ='Luca')) c,
+((select id  from addresses  where address_line_1  ='Ulster Folk & Transport museum')) a;
+
+INSERT INTO events_addresses_children  (events_id, addresses_id, children_id)
+select e.id, a.id, c.id
+from ((select id  from events e where description = 'Sport practice')) e,
+((select ch.id  from children ch inner join users u on ch.users_id = u.id where u.first_name ='Luca')) c,
+((select id  from addresses  where address_line_1  ='Amphitheatre Wellness Centre')) a;
+
+INSERT INTO events_addresses_children  (events_id, addresses_id, children_id)
+select e.id, a.id, c.id
+from ((select id  from events e where description = 'Open farm')) e,
+((select ch.id  from children ch inner join users u on ch.users_id = u.id where u.first_name ='Luca')) c,
+((select id  from addresses  where address_line_1  ='Streamvale Open Farm')) a;
+
+INSERT INTO events_addresses_children  (events_id, addresses_id, children_id)
+select e.id, a.id, c.id
+from ((select id  from events e where description = 'swimming')) e,
+((select ch.id  from children ch inner join users u on ch.users_id = u.id where u.first_name ='Luca')) c,
+((select id  from addresses  where address_line_1  ='Amphitheatre')) a;
+--Unknown
+
+INSERT INTO events_addresses_children  (events_id, addresses_id, children_id)
+select e.id, a.id, c.id
+from ((select id  from events e where description = 'Playdate as host')) e,
+((select ch.id  from children ch inner join users u on ch.users_id = u.id where u.first_name ='Unknown')) c,
+((select id  from addresses  where address_line_1  ='8 Rathmoyle Park West')) a;
+
+INSERT INTO events_addresses_children  (events_id, addresses_id, children_id)
+select e.id, a.id, c.id
+from ((select id  from events e where description = 'Playdate as guest')) e,
+((select ch.id  from children ch inner join users u on ch.users_id = u.id where u.first_name ='Unknown')) c,
+((select id  from addresses  where address_line_1  ='4 Windslow Drive')) a;
+
+INSERT INTO events_addresses_children  (events_id, addresses_id, children_id)
+select e.id, a.id, c.id
+from ((select id  from events e where description = 'Park visit')) e,
+((select ch.id  from children ch inner join users u on ch.users_id = u.id where u.first_name ='Unknown')) c,
+((select id  from addresses  where address_line_1  ='Marine Gardens')) a;
+
+INSERT INTO events_addresses_children  (events_id, addresses_id, children_id)
+select e.id, a.id, c.id
+from ((select id  from events e where description = 'Birthday Party')) e,
+((select ch.id  from children ch inner join users u on ch.users_id = u.id where u.first_name ='Unknown')) c,
+((select id  from addresses  where address_line_1  ='Airtastic')) a;
+
+INSERT INTO events_addresses_children  (events_id, addresses_id, children_id)
+select e.id, a.id, c.id
+from ((select id  from events e where description = 'Cafe')) e,
+((select ch.id  from children ch inner join users u on ch.users_id = u.id where u.first_name ='Unknown')) c,
+((select id  from addresses  where address_line_1  ='Season')) a;
+
+INSERT INTO events_addresses_children  (events_id, addresses_id, children_id)
+select e.id, a.id, c.id
+from ((select id  from events e where description = 'Softplay')) e,
+((select ch.id  from children ch inner join users u on ch.users_id = u.id where u.first_name ='Unknown')) c,
+((select id  from addresses  where address_line_1  ='Airtastic')) a;
+
+INSERT INTO events_addresses_children  (events_id, addresses_id, children_id)
+select e.id, a.id, c.id
+from ((select id  from events e where description = 'Babysit')) e,
+((select ch.id  from children ch inner join users u on ch.users_id = u.id where u.first_name ='Unknown')) c,
+((select id  from addresses  where address_line_1  ='35 Chichester square')) a;
+
+INSERT INTO events_addresses_children  (events_id, addresses_id, children_id)
+select e.id, a.id, c.id
+from ((select id  from events e where description = 'Childmind')) e,
+((select ch.id  from children ch inner join users u on ch.users_id = u.id where u.first_name ='Unknown')) c,
+((select id  from addresses  where address_line_1  ='19 Loughview Village')) a;
+
+INSERT INTO events_addresses_children  (events_id, addresses_id, children_id)
+select e.id, a.id, c.id
+from ((select id  from events e where description = 'Theatre')) e,
+((select ch.id  from children ch inner join users u on ch.users_id = u.id where u.first_name ='Unknown')) c,
+((select id  from addresses  where address_line_1  ='Grand Opera House')) a;
+
+INSERT INTO events_addresses_children  (events_id, addresses_id, children_id)
+select e.id, a.id, c.id
+from ((select id  from events e where description = 'Open farm')) e,
+((select ch.id  from children ch inner join users u on ch.users_id = u.id where u.first_name ='Unknown')) c,
+((select id  from addresses  where address_line_1  ='Streamvale Open Farm')) a;
+
+INSERT INTO events_addresses_children  (events_id, addresses_id, children_id)
+select e.id, a.id, c.id
+from ((select id  from events e where description = 'aquarium')) e,
+((select ch.id  from children ch inner join users u on ch.users_id = u.id where u.first_name ='Unknown')) c,
+((select id  from addresses  where address_line_1  ='Exploris Aquarium')) a;
+
+INSERT INTO events_addresses_children  (events_id, addresses_id, children_id)
+select e.id, a.id, c.id
+from ((select id  from events e where description = 'Family visit')) e,
+((select ch.id  from children ch inner join users u on ch.users_id = u.id where u.first_name ='Unknown')) c,
+((select id  from addresses  where address_line_1  ='5 Bluefield way')) a;
+
+INSERT INTO events_addresses_children  (events_id, addresses_id, children_id)
+select e.id, a.id, c.id
+from ((select id  from events e where description = 'Seasonal Occasion')) e,
+((select ch.id  from children ch inner join users u on ch.users_id = u.id where u.first_name ='Unknown')) c,
+((select id  from addresses  where address_line_1  ='Ulster Folk & Transport')) a;
+
+INSERT INTO events_addresses_children  (events_id, addresses_id, children_id)
+select e.id, a.id, c.id
+from ((select id  from events e where description = 'Sport practice')) e,
+((select ch.id  from children ch inner join users u on ch.users_id = u.id where u.first_name ='Unknown')) c,
+((select id  from addresses  where address_line_1  ='Amphitheatre')) a;
+
+INSERT INTO events_addresses_children  (events_id, addresses_id, children_id)
+select e.id, a.id, c.id
+from ((select id  from events e where description = 'Open farm')) e,
+((select ch.id  from children ch inner join users u on ch.users_id = u.id where u.first_name ='Unknown')) c,
+((select id  from addresses  where address_line_1  ='Streamvale Open Farm')) a;
+
+INSERT INTO events_addresses_children  (events_id, addresses_id, children_id)
+select e.id, a.id, c.id
+from ((select id  from events e where description = 'swimming')) e,
+((select ch.id  from children ch inner join users u on ch.users_id = u.id where u.first_name ='Unknown')) c,
+((select id  from addresses  where address_line_1  ='Amphitheatre')) a;
