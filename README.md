@@ -213,9 +213,7 @@ GET /children/{id}  - Returns a single child by ID
 
 
 POST /events/{id} Create an event
-
 Request
-
 {
   "description": "Holiday",
   "time_slot": "2020-12-11 12:00:00.000",
@@ -293,7 +291,17 @@ POST /guardian Create a guardian
 Response - 201 Created
 
 POST /addresses Create an address
+{
+  "address_line_1": "string",
+  "address_line_2": "string",
+  "county": "string",
+  "city": "string",
+  "postcode": "string"
+}
+Response - 201 Created
 
+PUT /address/{id} Update an address by id
+Request
 {
   "address_line_1": "string",
   "address_line_2": "string",
@@ -302,13 +310,8 @@ POST /addresses Create an address
   "postcode": "string"
 }
 
-Response - 201 Created
-
-
 PUT /users/{id} Update a user by id
-
 Request
-
 {
   "first_name": "Lauren",
   "last_name": "Crawford",
