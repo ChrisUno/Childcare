@@ -35,7 +35,7 @@ erDiagram
           guardians ||--|{ events : "creates"
           guardians ||--|{ children : "creates"
           guardians ||--|{ addresses : "creates"
-          guardians ||--|{ relationship : "creates"
+          guardians ||--|{ relationships : "creates"
           guardians ||--|{ users : "creates"
           events }|--|{ addresses : "contains"
           children }|--|{ user_id : "contains"
@@ -54,7 +54,7 @@ erDiagram
         int user_id
         int contact_number
     }
-    relationship {
+    relationships {
         int id
         string description
     }
@@ -63,10 +63,8 @@ erDiagram
         int users_id
     }
     guardians_children {
-        int Id
         int guardians_id
         int children_id
-        int relationship_id
     }
     events {
         int id
@@ -76,8 +74,9 @@ erDiagram
     }
     events_guardians_children {
         int events_id
+        int guardians_id
         int children_id
-        int addresses_id
+        
     }
     addresses {
         int Id
@@ -108,7 +107,7 @@ erDiagram
     events_guardians_children }|--|| children: "uses"
 
 ```
-EVENTS - GUARDIANS - GUARDIANS_CHILDREN - ADDRESSES - CHILDREN - EVENTS_ADDRESSES_CHILDREN - RELATIONSHIP - USERS
+EVENTS - GUARDIANS - GUARDIANS_CHILDREN - ADDRESSES - CHILDREN - EVENTS_GUARDIANS_CHILDREN - RELATIONSHIP - USERS
 ```
 
 API Specification
