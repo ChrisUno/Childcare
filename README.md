@@ -100,7 +100,7 @@ erDiagram
     guardians_children }|--|| guardians: "uses"
     guardians_children }|--|| children: "uses"
     guardians_children }|--|| addresses: "uses"
-    guardians_children }|--|| relationship: "uses"
+    guardians_children }|--|| relationships: "uses"
     users }|--|| addresses: "uses"
     events_guardians_children }|--|| guardians: "uses"
     events_guardians_children }|--|| events: "uses"
