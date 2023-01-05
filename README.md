@@ -38,7 +38,7 @@ erDiagram
           guardians ||--|{ relationships : "creates"
           guardians ||--|{ users : "creates"
           events }|--|{ addresses : "contains"
-          children }|--|{ user_id : "contains"
+          users }|--|{ children : "contains"
           users }|--|{ addresses : "contains"
           
 ```
