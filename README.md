@@ -37,7 +37,7 @@ erDiagram
           events }|--|{ users_events : "contains"
           users }|--|{ users_events : "contains"
           users }|--|{ addresses : "contains"
-          users }|--|{ users_relationships : "contains"
+          users }|--|{ users_relationship : "contains"
           users_relationship }|--|{ relationship_types : "contains"
           users }|--|{ family : "contains"
 ```
