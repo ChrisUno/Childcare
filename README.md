@@ -37,9 +37,8 @@ erDiagram
           Events }|--|{ Users Events : "contains"
           Users }|--|{ Users Events : "contains"
           Users }|--|{ Addresses : "contains"
-          Relationships }|--|{ Users Relationships : "contains"
           Users }|--|{ Users Relationships : "contains"
-          
+          Relationships }|--|{ Users Relationships : "contains"
 ```
 
 ## ERD 
@@ -48,52 +47,55 @@ erDiagram
 
 erDiagram
 
-    guardians {
-        int Id
-        int user_id
-        int contact_number
-    }
-    relationships {
+
+    family {
         int id
-        string description
+        string name
     }
-    children {
+    relationship_types {
         int id
-        int users_id
+        string name
     }
-    guardians_children {
-        int guardians_id
-        int children_id
+    users_relationships {
+        int id
+        int parent_id
+        int child_id
+        int relationship_type_id
     }
     events {
         int id
-        int addresses_id
+        string name
         string description
-        timestamp time_slot
+        TIMESTAMP Time_slot
+        int addresses_id
     }
-    events_guardians_children {
+    users_events {
+        int id
+        int users_id
         int events_id
-        int guardians_id
-        int children_id
         
     }
     addresses {
         int Id
-        string street_name
-        string house_number
-        string town
-        string city
-        string postcode
+        string name
+        string Address_Line_1
+        string Address_Line_2
+        string Region
+        string Zipcode
+        string Country
+        int Family_id
     }
     users {
         int Id
         string first_name
         string last_name
+        string email
+        string password
+        int family_id
         int addresses_id
     }
 
-    guardians ||--|{ children: "creates"
-    children }|--|| users: "uses"
+    Users }|--|| users: "uses"
     events }|--|| addresses: "uses"
     guardians }|--|| users: "uses"
     guardians_children }|--|| guardians: "uses"
