@@ -38,8 +38,8 @@ erDiagram
           users }|--|{ users_events : "contains"
           users }|--|{ addresses : "contains"
           users }|--|{ users_relationships : "contains"
-          relationships }|--|{ users_relationships : "contains"
-          relationships_types }|--|{ users_relationships : "contains"
+          relationship }|--|{ users_relationship : "contains"
+          relationship_types }|--|{ users_relationship : "contains"
           users }|--|{ family : "contains"
 ```
 
@@ -58,7 +58,7 @@ erDiagram
         int id
         string name
     }
-    users_relationships {
+    users_relationship {
         int id
         int parent_id
         int child_id
@@ -97,13 +97,13 @@ erDiagram
         int addresses_id
     }
 
-    users }|--|| users_relationships: "uses"
-    relationships }|--|| users_relationships: "uses"
+    users }|--|| users_relationship: "uses"
+    relationship }|--|| users_relationship: "uses"
     users }|--|| addresses: "uses"
     users }|--|| users_events: "uses"
     events }|--|| addresses: "uses"
     events }|--|| users_events: "uses"
-    users_relationships }|--|| relationships_types: "uses"
+    users_relationship }|--|| relationship_types: "uses"
     users }|--|| family: "uses"
     
 
