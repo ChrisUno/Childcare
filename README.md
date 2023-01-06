@@ -39,6 +39,8 @@ erDiagram
           users }|--|{ addresses : "contains"
           users }|--|{ users_relationships : "contains"
           relationships }|--|{ users_relationships : "contains"
+          relationships_types }|--|{ users_relationships : "contains"
+          users }|--|{ family : "contains"
 ```
 
 ## ERD 
@@ -101,6 +103,8 @@ erDiagram
     users }|--|| users_events: "uses"
     events }|--|| addresses: "uses"
     events }|--|| users_events: "uses"
+    users_relationships }|--|| relationships_types: "uses"
+    users }|--|| family: "uses"
     
 
 ```
