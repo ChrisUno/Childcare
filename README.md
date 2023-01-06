@@ -32,14 +32,13 @@ An application that provides clear information on where the child is, who theyre
 ## Domain Model
 ``` mermaid
 erDiagram
-          guardians ||--|{ events : "creates"
-          guardians ||--|{ children : "creates"
-          guardians ||--|{ addresses : "creates"
-          guardians ||--|{ relationships : "creates"
-          guardians ||--|{ users : "creates"
-          events }|--|{ addresses : "contains"
-          users }|--|{ children : "contains"
-          users }|--|{ addresses : "contains"
+
+          Events }|--|{ Addresses : "contains"
+          Events }|--|{ Users Events : "contains"
+          Users }|--|{ Users Events : "contains"
+          Users }|--|{ Addresses : "contains"
+          Relationships }|--|{ Users Relationships : "contains"
+          Users }|--|{ Users Relationships : "contains"
           
 ```
 
