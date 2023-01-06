@@ -118,7 +118,10 @@ Response
 [
   {
     "id": 1,
-    "description": "Playdate as guest"
+    "name":Playdate as guest,
+    "description": "playtime with a/some child/ren not at home",
+    "time_slot": DATETIME,
+    "addresses_id": 1
   }
 ]
 
