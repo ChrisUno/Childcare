@@ -33,12 +33,12 @@ An application that provides clear information on where the child is, who theyre
 ``` mermaid
 erDiagram
 
-          Events }|--|{ Addresses : "contains"
-          Events }|--|{ Users Events : "contains"
-          Users }|--|{ Users Events : "contains"
-          Users }|--|{ Addresses : "contains"
-          Users }|--|{ Users Relationships : "contains"
-          Relationships }|--|{ Users Relationships : "contains"
+          events }|--|{ addresses : "contains"
+          events }|--|{ users_events : "contains"
+          users }|--|{ users_events : "contains"
+          users }|--|{ addresses : "contains"
+          users }|--|{ users_relationships : "contains"
+          relationships }|--|{ users_relationships : "contains"
 ```
 
 ## ERD 
@@ -95,17 +95,13 @@ erDiagram
         int addresses_id
     }
 
-    Users }|--|| users: "uses"
-    events }|--|| addresses: "uses"
-    guardians }|--|| users: "uses"
-    guardians_children }|--|| guardians: "uses"
-    guardians_children }|--|| children: "uses"
-    guardians_children }|--|| addresses: "uses"
-    guardians_children }|--|| relationships: "uses"
+    users }|--|| users_relationships: "uses"
+    relationships }|--|| users_relationships: "uses"
     users }|--|| addresses: "uses"
-    events_guardians_children }|--|| guardians: "uses"
-    events_guardians_children }|--|| events: "uses"
-    events_guardians_children }|--|| children: "uses"
+    users }|--|| users_events: "uses"
+    events }|--|| addresses: "uses"
+    events }|--|| users_events: "uses"
+    
 
 ```
 EVENTS - GUARDIANS - GUARDIANS_CHILDREN - ADDRESSES - CHILDREN - EVENTS_GUARDIANS_CHILDREN - RELATIONSHIP - USERS
