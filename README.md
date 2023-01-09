@@ -111,222 +111,221 @@ erDiagram
 
 API Specification
 
-GET /events Return a list of events
+**USERS**
 
-Response
-
-[
-  {
-    "id": 1,
-    "name":Playdate as guest,
-    "description": "playtime with a/some child/ren not at home",
-    "time_slot": DATETIME,
-    "addresses_id": 1
-  }
-]
-
-
-GET /events/{id} Returns a single event
-
-Response
-{
-  "id": 1,
-  "time_slot": "2020-10-05 14:01:10.000",
-  "description": "Playdate as guest",
-  "address": {
-    "id": 2,
-    "address_line_1": "8 Rathmoyle Park West",
-    "address_line_2": "Carrickfergus",
-    "County": "Antrim",
-    "City": "Belfast",
-    "postcode": "BT387NG"
-  }
-}
-
-
-GET /events/{id}/children Returns a single event with children
-
-Response
-
- {
-  "id": 1,
-  "events_time": "2020-10-05 14:01:10.000",
-  "description": "Playdate as guest",
-  "children": [
-    {
-      "id": 1,
-      "first_name": "Luca"
-    }
-  ]
-}
-
-
-GET /events/children/{id} Returns multiple events a single child is scheduled to attend
-Response
-[
- {
-  “id”: 1,
-  "first_name":<string>,
-  "description": <string>,
-  “time_slot”: <atimestamp>
-  }
-] 
-
-GET /children  - Returns all children
- [
-  {
-    "id": "1",
-    "first_name": "string",
-    "last_name": "string",
-    "guardians": [
-      {
-        "id": "1",
-        "first_name": "string",
-        "last_name": "string",
-        "guardian_relationship": {
-          "id": "1",
-          "description": "father"
-        }
-      }
-    ]
-  }
-]
-
-GET /children/{id}  - Returns a single child by ID
- [
-  {
-    "id": "1",
-    "first_name": "string",
-    "last_name": "string",
-    "guardians": [
-      {
-        "id": "1",
-        "first_name": "string",
-        "last_name": "string",
-        "guardian_relationship": {
-          "id": "1",
-          "description": "father"
-        }
-      }
-    ]
-  }
-]
-
-
-POST /events/{id} Create an event
-Request
-{
-  "description": "Holiday",
-  "time_slot": "2020-12-11 12:00:00.000",
-  "address_id": "23",
-  "children": [
-    {
-      "id": "2",
-      "guardian": {
-        "id": "4"
-      }
-    }
-  ]
-}
-  
-  
-Response - 201 Created
-
-GET /users/{id} Returns user
+GET /users/{id} Returns user by id and all relationships - first name last name and relationship
 
 Response
 
 {
   “id”:"1",
-  “first_name”:Chris,
-  "last_name":Crawford,
+  “first_name”:"Chris",
+  "last_name":"Crawford",
+  "email":"chriscrawford86@gmail.com",
+  "family": {
+    "id": "1",
+    "name": "Crawford"
+  },
    "address": {
     "id": 2,
     "address_line_1": "8 Rathmoyle Park West",
     "address_line_2": "Carrickfergus",
-    "County": "Antrim",
-    "City": "Belfast",
-    "postcode": "BT387NG"
-  }
+    "region": "Belfast",
+    "Country": "NI",
+    "zipcode": "BT387NG"
+  },
 }
 
-GET /users Returns all user
+GET /users Returns all users with first name, last name and email
+Optional filter on family id
 
 Response
 
 [
 {
   “id”:"1",
-  “first_name”:Chris,
-  "last_name":Crawford,
-   "address": {
-    "id": 2,
-    "address_line_1": "8 Rathmoyle Park West",
-    "address_line_2": "Carrickfergus",
-    "County": "Antrim",
-    "City": "Belfast",
-    "postcode": "BT387NG"
-  }
+  “first_name”:"Chris",
+  "last_name":"Crawford",
+  "email":"chriscrawford86@gmail.com"
 }
 ]
 
 
-POST /users Create a user
+POST /users Creates user, optional relationships at this point.
 
 Request
 
 {
   "first_name": "Anne",
   "last_name": "Accident",
-  "address_id": "1"
+  "email": "anneaccident10@gmail.com",
+  "password":"crispbag",
+  "family_id": "1",
+  "address_id": "1"  
 }
 
-POST /guardian Create a guardian
-
-{
-  "child_id": "1"
-  "user_id": "5"
-  "relationship_id": "4"
-}
-
-Response - 201 Created
-
-POST /addresses Create an address
-{
-  "address_line_1": "string",
-  "address_line_2": "string",
-  "county": "string",
-  "city": "string",
-  "postcode": "string"
-}
-Response - 201 Created
-
-PUT /address/{id} Update an address by id
-Request
-{
-  "address_line_1": "string",
-  "address_line_2": "string",
-  "county": "string",
-  "city": "string",
-  "postcode": "string"
-}
-
-PUT /users/{id} Update a user by id
+PUT /users/{id} Update a user and relationships
 Request
 {
   "first_name": "Lauren",
   "last_name": "Crawford",
-  "address_id": 1
+  "email":"laurencrawford35@gmail.com",
+  "family_id": "1",
+  "address_id": "1"  
 }
 
-DELETE /users/{id} Delete a user by id
+DELETE /users/{id} soft deletion a user by id
 
 Response - 204 No Content
 
-DELETE /event/{id} Delete an event by id
+
+**EVENTS**
+
+GET /events Return all events names and descriptions
+
+Response
+
+[
+  {
+    "id": 1,
+    "name":Playdate as host,
+    "description": "playtime with a/some child/ren at home"
+  }
+]
+
+
+GET /events/{id} Returns an event with name and description, times lot and address
+
+Response
+{
+  "id": 1,
+  "name":Playdate as host
+  "description": "playtime with a/some child/ren at home",
+  "time_slot": "2020-10-05 14:01:10.000",
+  "address": {
+    "id": 1,
+    "address_line_1": "8 Rathmoyle Park West",
+    "address_line_2": "Carrickfergus",
+    "region": "Belfast",
+    "Country": "NI",
+    "zipcode": "BT387NG"
+  }
+}
+
+POST /events Creates event.
+
+Request
+
+{
+  "name": "Playdate as host",
+  "description": "playtime with a/some child/ren at home",
+  "time_slot": "2020-10-05 14:01:10.000",
+  "address_id":"1" 
+}
+
+PUT /events/{id} Update event, description, address and its time slot
+Request
+{
+  "id": "1",
+  "name": "Playdate as host",
+  "description":"playtime with a/some child/ren at home",
+  "time_slot": "2020-10-05 14:01:10.000",
+  "address_id": "1"  
+}
+
+DELETE /events/{id} soft deletion an event by id
 
 Response - 204 No Content
 
-DELETE /addresses/{id} Delete an address by id
+
+**Family**
+
+
+GET /family  - Returns all families
+ [
+  {
+    "id": "1",
+    "name": "Crawford"
+  }
+]
+
+GET /family/{id}  - Returns a family with all family members
+ [
+  {
+    "id": "1",
+    "name": "Crawford",
+    "users_relationship_types":{
+        "id": "1",
+        "child_id": "string",
+        "parent_id": "string"
+        }
+        "relationship_type_id": {
+          "id": "1",
+          "name": "father"
+        }
+     }
+   ]
+
+
+POST /family Create a family
+Request
+{
+  "id": "2",
+  "name": "Lavery",
+}
+    
+Response - 201 Created
+
+
+PUT /family/{id} Update a family name
+
+{
+  "id": "1",
+  "name": "5"
+}
+Response - 201 Created
+
+
+DELETE /family/{id} Soft Delete a family by id
 
 Response - 204 No Content
+
+
+**ADDRESSES**
+We won’t directly create addresses, instead addresses will be created with users and events.
+
+GET /Addresses/{AddressID} Return address by id
+Request
+{
+   "id": 1,
+   "address_line_1": "8 Rathmoyle Park West",
+   "address_line_2": "Carrickfergus",
+   "region": "Belfast",
+   "Country": "NI",
+   "zipcode": "BT387NG"
+}
+
+GET /Addresses?FamilyID={FamilyID} return address by family id
+Request
+{
+   "family":{
+          "id":"1"
+          "name":"Crawford"
+          }
+   "address_line_1": "8 Rathmoyle Park West",
+   "address_line_2": "Carrickfergus",
+   "region": "Belfast",
+   "Country": "NI",
+   "zipcode": "BT387NG"
+}
+
+
+**Relationship_types**
+
+GET /Relationship_types/ - Return all relationship types
+{
+     "id":"1"
+     "name":"Father"
+}
+
+
