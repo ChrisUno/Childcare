@@ -84,7 +84,6 @@ erDiagram
         string Region
         string Zipcode
         string Country
-        int Family_id
     }
     users {
         int Id
