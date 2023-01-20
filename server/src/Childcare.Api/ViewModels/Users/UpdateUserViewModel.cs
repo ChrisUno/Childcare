@@ -1,27 +1,21 @@
 using FluentValidation;
-using System.Security;
-
 
 namespace Childcare.Api.ViewModels.Users;
 
-public class CreateUserViewModel
+public class UpdateUserViewModel
 {
     public string FirstName { get; set; }
+    
     public string LastName { get; set; }
     
     public string Email { get; set; }
     
-    public SecureString Password { get; set; }
-    
-    public FamilyViewModel Name { get; set; }
-
-    public AddressViewModel Address { get; set; }
-    
+    public RelationshipTypeViewModel Name { get; set; }
 }
 
-public class CreateUserValidator : AbstractValidator<CreateUserViewModel>
+public class UpdateUserValidator : AbstractValidator<UpdateUserViewModel>
 {
-    public CreateUserValidator()
+    public UpdateUserValidator()
     {
         RuleFor(x => x.FirstName)
             .NotNull()
