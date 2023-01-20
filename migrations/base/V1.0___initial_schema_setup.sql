@@ -85,7 +85,7 @@ CREATE TABLE public.users (
 	last_name varchar(255) NOT NULL,
 	email varchar(255) NOT NULL,
 	password varchar(255) NOT NULL,
-	active bit NOT NULL,
+	active boolean NOT NULL,
 	family_id INT NOT NULL constraint users_family_family_id_fk REFERENCES public.family,
 	address_id INT NOT NULL constraint users_addresses_address_id_fk REFERENCES public.addresses,
 	CONSTRAINT users_pkey PRIMARY KEY (id)
