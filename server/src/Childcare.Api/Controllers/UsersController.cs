@@ -61,9 +61,9 @@ public class UsersController : ControllerBase
                 Id = id,
                 AddressLine1 = "8 Rathmoyle park west",
                 AddressLine2 = "Carrickfergus",
-                County = "Antrim",
-                City = "Belfast",
-                Postcode = "BT387NG"
+                Country  = "NI",
+                Region = "Belfast",
+                Zipcode  = "BT387NG"
             } 
             
         };
