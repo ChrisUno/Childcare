@@ -6,6 +6,9 @@ using Childcare.Api.ViewModels.Users;
 using Childcare.Dal.Interfaces;
 using Childcare.Dal.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
+using Childcare.Services.Interfaces;
+using Childcare.Services.Services.DTOs;
 
 namespace Childcare.Api.Controllers;
 
@@ -15,12 +18,14 @@ public class FamilyController : ControllerBase
 {
     private readonly ILogger<FamilyController> _logger;
     private readonly IDatabase _database;
+    private readonly IFamilyService _familyService;
 
 
-    public FamilyController(ILogger<FamilyController> logger, IDatabase database)
+    public FamilyController(ILogger<FamilyController> logger, IDatabase database, IFamilyService familyService)
     {
         _logger = logger;
         _database = database;
+        _familyService = familyService;
     }
 
     [HttpGet]
@@ -64,12 +69,11 @@ public class FamilyController : ControllerBase
     [HttpPut("{id}")]
     public ActionResult UpdateFamily(int id, [FromBody] UpdateFamilyViewModel updateFamilyViewModel)
     {
-        var existingFamily = _database.Get<Family>().SingleOrDefault(x => x.Id == id);
-        if (existingFamily == null) return NotFound();
+        var family = new FamilyDTO { Name = updateFamilyViewModel.Name };
+        var existingFamily = _familyService.UpdateFamily(id, family);
+        if (!existingFamily) return NotFound();
 
         existingFamily.Name = updateFamilyViewModel.Name;
-
-        _database.SaveChanges();
         
         return NoContent();
     }

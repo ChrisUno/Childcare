@@ -6,6 +6,10 @@ using Childcare.Api.ViewModels.Users;
 using Childcare.Dal.Interfaces;
 using Childcare.Dal.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
+using Childcare.Services.Interfaces;
+using Childcare.Services.Services.DTOs;
+using Childcare.Services.Services;
 
 namespace Childcare.Api.Controllers;
 
@@ -15,12 +19,13 @@ public class AddressesController : ControllerBase
 {
     private readonly ILogger<AddressesController> _logger;
     private readonly IDatabase _database;
+    private readonly IAddressService _addressService;
 
-    
-    public AddressesController(ILogger<AddressesController> logger, IDatabase database)
+    public AddressesController(ILogger<AddressesController> logger, IDatabase database, IAddressService addressService)
     {
         _logger = logger;
         _database = database;
+        _addressService = addressService;
     }
     
     [HttpGet]

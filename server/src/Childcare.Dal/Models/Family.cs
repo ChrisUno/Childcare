@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Childcare.Dal.Models;
 
-[Table("family")]
+[Table("families")]
 public class Family
 {
     [Key]
@@ -11,6 +11,8 @@ public class Family
     public int Id { get; set; }
     [Column("name")]
     public string Name { get; set; }
-    
+    [Column("active")]
+    public bool Active { get; set; }
+
     public virtual ICollection<User> Users { get; set; }
 }

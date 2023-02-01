@@ -7,6 +7,8 @@ using Childcare.Dal.Interfaces;
 using Childcare.Dal.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
+using Childcare.Services.Interfaces;
+using Childcare.Services.Services.DTOs;
 
 namespace Childcare.Api.Controllers;
 
@@ -16,11 +18,13 @@ public class UsersController : ControllerBase
 {
     private readonly ILogger<UsersController> _logger;
     private readonly IDatabase _database;
+    private readonly IUserService _userService;
 
-    public UsersController(ILogger<UsersController> logger, IDatabase database)
+    public UsersController(ILogger<UsersController> logger, IDatabase database, IUserService userService)
     {
         _logger = logger;
         _database = database;
+        _userService = userService;
     }
 
     
@@ -28,8 +32,9 @@ public class UsersController : ControllerBase
     public ActionResult<IList<UserViewModel>> GetUsers()
     {
 
-        return _database.Get<User>().Select(x => new UserViewModel
-        
+        return _database.Get<User>()
+            .Where(x=>x.Active==true)
+            .Select(x => new UserViewModel
             {
                 Id = x.Id,
                 FirstName = x.FirstName,
@@ -43,10 +48,11 @@ public class UsersController : ControllerBase
     public ActionResult<UserDetailViewModel> GetUserById(int id)
     {
         var user = _database.Get<User>()
+            .Where(x=>x.Active==true)
             .Include(x => x.Address)
             .Include(x => x.Family)
             .Include(x => x.ChildRelationships)
-                .ThenInclude(x=> x.Parent)
+            .ThenInclude(x=> x.Parent)
             .Include(x=>x.ChildRelationships).ThenInclude(x=>x.RelationshipType)
             .SingleOrDefault(x => x.Id == id);
 
@@ -97,6 +103,7 @@ public class UsersController : ControllerBase
             FirstName = createUserViewModel.FirstName,
             LastName = createUserViewModel.LastName,
             Email = createUserViewModel.Email,
+            Active = true,
             Address = new Address
             {
                 Name = createUserViewModel.Address.Name,
@@ -120,14 +127,9 @@ public class UsersController : ControllerBase
     [HttpPut("{id}")]
     public ActionResult UpdateUser(int id, [FromBody] UpdateUserViewModel updateUserViewModel)
     {
-        var existingUser = _database.Get<User>().SingleOrDefault(x => x.Id == id);
-        if (existingUser == null) return NotFound();
-
-        existingUser.FirstName = updateUserViewModel.FirstName;
-        existingUser.LastName = updateUserViewModel.LastName;
-        existingUser.Email = updateUserViewModel.Email;
-
-        _database.SaveChanges();
+        var user = new UserDTO { FirstName = updateUserViewModel.FirstName, LastName = updateUserViewModel.LastName, Email = updateUserViewModel.Email};
+        var existingUser = _userService.UpdateUser(id, user);
+        if (!existingUser) return NotFound();
         
         return NoContent();
     }

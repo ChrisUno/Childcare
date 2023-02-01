@@ -6,18 +6,34 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <PropertyGroup Condition=" '$(RunConfiguration)' == 'https' " />
+  <PropertyGroup Condition=" '$(RunConfiguration)' == 'http' " />
   <ItemGroup>
     <PackageReference Include="FluentValidation.AspNetCore" Version="11.2.2" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+    <PackageReference Include="AutoMapper" Version="12.0.1" />
+    <PackageReference Include="Unosquare.EntityFramework.Specification.EFCore" Version="1.0.7" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Childcare.Dal\Childcare.Dal.csproj" />
+    <ProjectReference Include="..\Childcare.Services\Childcare.Services.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Compile Remove="Controllers\WeatherForecastController.cs" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="Filters\" />
+    <None Remove="Controllers\Extensions\" />
+    <None Remove="Profiles\" />
+    <None Remove="AutoMapper" />
+    <None Remove="Unosquare.EntityFramework.Specification.EFCore" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Filters\" />
+    <Folder Include="Controllers\Extensions\" />
+    <Folder Include="Profiles\" />
+  </ItemGroup>
 </Project>

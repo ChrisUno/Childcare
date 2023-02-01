@@ -9,6 +9,18 @@
     <ItemGroup>
       <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.2" />
       <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.1" />
+      <PackageReference Include="AutoMapper" Version="12.0.1" />
+      <PackageReference Include="Unosquare.EntityFramework.Specification.EFCore" Version="1.0.7" />
+      <PackageReference Include="Unosquare.EntityFramework.Specification" Version="1.0.7" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Remove="Specifications\" />
+      <None Remove="AutoMapper" />
+      <None Remove="Unosquare.EntityFramework.Specification.EFCore" />
+      <None Remove="Unosquare.EntityFramework.Specification" />
+    </ItemGroup>
+    <ItemGroup>
+      <Folder Include="Specifications\" />
+    </ItemGroup>
 </Project>

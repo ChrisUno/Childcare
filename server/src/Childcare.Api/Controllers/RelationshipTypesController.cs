@@ -5,6 +5,10 @@ using Childcare.Api.ViewModels.RelationshipTypes;
 using Childcare.Dal.Interfaces;
 using Childcare.Dal.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
+using Childcare.Services.Interfaces;
+using Childcare.Services.Services.DTOs;
+using Childcare.Services.Services;
 
 namespace Childcare.Api.Controllers;
 
@@ -15,11 +19,13 @@ public class RelationshipTypesController : ControllerBase
 
     private readonly ILogger<RelationshipTypesController> _logger;
     private readonly IDatabase _database;
+    private readonly IRelationshipTypeService _relationshipTypeService;
 
-    public RelationshipTypesController(ILogger<RelationshipTypesController> logger, IDatabase database)
+    public RelationshipTypesController(ILogger<RelationshipTypesController> logger, IDatabase database, IRelationshipTypeService relationshipTypeService)
     {
         _logger = logger;
         _database = database;
+        _relationshipTypeService = relationshipTypeService;
     }
     
     
