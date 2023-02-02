@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 using Childcare.Services.Interfaces;
 using Childcare.Services.Services.DTOs;
+using AutoMapper;
 
 namespace Childcare.Api.Controllers;
 
@@ -17,120 +18,44 @@ namespace Childcare.Api.Controllers;
 public class UsersController : ControllerBase
 {
     private readonly ILogger<UsersController> _logger;
-    private readonly IDatabase _database;
+    private readonly IMapper _mapper;
     private readonly IUserService _userService;
 
-    public UsersController(ILogger<UsersController> logger, IDatabase database, IUserService userService)
+    public UsersController(ILogger<UsersController> logger, IMapper mapper ,IUserService userService)
     {
         _logger = logger;
-        _database = database;
         _userService = userService;
+        _mapper= mapper;
     }
 
     
     [HttpGet]
     public ActionResult<IList<UserViewModel>> GetUsers()
     {
+        var users = _userService.GetUsers();
+        return Ok (_mapper.Map<List<UserViewModel>>(users));
 
-        return _database.Get<User>()
-            .Where(x=>x.Active==true)
-            .Select(x => new UserViewModel
-            {
-                Id = x.Id,
-                FirstName = x.FirstName,
-                LastName = x.LastName,
-                Email = x.Email
-            })
-            .ToList();
     }
 
     [HttpGet("{id}")]
     public ActionResult<UserDetailViewModel> GetUserById(int id)
-    {
-        var user = _database.Get<User>()
-            .Where(x=>x.Active==true)
-            .Include(x => x.Address)
-            .Include(x => x.Family)
-            .Include(x => x.ChildRelationships)
-            .ThenInclude(x=> x.Parent)
-            .Include(x=>x.ChildRelationships).ThenInclude(x=>x.RelationshipType)
-            .SingleOrDefault(x => x.Id == id);
-
+    { 
+        var user = _userService.GetUserById(id);
         if (user == null) return NoContent();
-        
-        return Ok(new UserDetailViewModel()
-        {
-            Id = user.Id, 
-            FirstName = user.FirstName,
-            LastName = user.LastName,
-            Email = user.Email,
-            Family = new FamilyViewModel
-            {
-                Id = user.FamilyId,
-                Name = user.Family.Name
-            },
-            Address = new AddressViewModel
-            {
-                Id= user.Address.Id,
-                Name = user.Address.Name,
-                AddressLine1 = user.Address.AddressLine1,
-                AddressLine2 = user.Address.AddressLine2,
-                Region = user.Address.Region,
-                Country = user.Address.Country,
-                Zipcode = user.Address.Zipcode
-            },
-            Relationship = user.ChildRelationships.Select(x => new RelationshipTypeViewModel
-            {
-                Id = x.Id,
-                Relationship = x.RelationshipType.Relationship,
-                User = new UserViewModel
-                {
-                    Id = x.ParentId,
-                    FirstName = x.Parent.FirstName,
-                    LastName = x.Parent.LastName,
-                    Email = x.Parent.Email
-                }
-            }).ToList()
-        });
+        return Ok(_mapper.Map<UserViewModel>(user));
     }
     
     [HttpPost]
     public ActionResult CreateUser([FromBody] CreateUserViewModel createUserViewModel)
     {
-
-        var newUser = new User
-        {
-            FirstName = createUserViewModel.FirstName,
-            LastName = createUserViewModel.LastName,
-            Email = createUserViewModel.Email,
-            Active = true,
-            Address = new Address
-            {
-                Name = createUserViewModel.Address.Name,
-                AddressLine1 = createUserViewModel.Address.AddressLine1,
-                AddressLine2 = createUserViewModel.Address.AddressLine2,
-                Country = createUserViewModel.Address.Country,
-                Region = createUserViewModel.Address.Region,
-                Zipcode = createUserViewModel.Address.Zipcode
-            },
-            Family = new Family
-            {
-                Name = createUserViewModel.Address.Name
-            }
-
-        };
-        _database.Add(newUser);
-        _database.SaveChanges();
+        _userService.CreateUser(_mapper.Map<UserDTO>(createUserViewModel));
         return StatusCode((int) HttpStatusCode.Created);
     }
 
     [HttpPut("{id}")]
     public ActionResult UpdateUser(int id, [FromBody] UpdateUserViewModel updateUserViewModel)
     {
-        var user = new UserDTO { FirstName = updateUserViewModel.FirstName, LastName = updateUserViewModel.LastName, Email = updateUserViewModel.Email};
-        var existingUser = _userService.UpdateUser(id, user);
-        if (!existingUser) return NotFound();
-        
+        _userService.UpdateUser(id, _mapper.Map<UserDTO>(updateUserViewModel));
         return NoContent();
     }
 
@@ -138,13 +63,7 @@ public class UsersController : ControllerBase
     [HttpDelete("{id}")]
     public ActionResult DeleteUser(int id)
     {
-    
-        var existingUser = _database.Get<User>().SingleOrDefault(x => x.Id == id);
-        if (existingUser == null) return NotFound();
-        existingUser.Active = false;
-
-        _database.SaveChanges();
-
+        _userService.DeleteUser(id);
         return StatusCode((int) HttpStatusCode.OK);
 
     }

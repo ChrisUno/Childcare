@@ -15,7 +15,10 @@ public class Event
     public string Description { get; set; }
     [Column("time_slot")]
     public DateTime Timeslot { get; set; }
-    
+
+    [Column("active")]
+    public bool Active { get; set; }
+
     [Column("address_id")]
     public int AddressId { get; set; }
     

@@ -97,10 +97,9 @@ public class EventsController : ControllerBase
     [HttpPut("{id}")]
     public ActionResult UpdateEvent(int id, [FromBody] UpdateEventViewModel updateEventViewModel)
     {
-        var event = new EventDTO { Name = updateEventViewModel.Name, Description = updateEventViewModel.Description, TimeSlot = updateEventViewModel.TimeSlot ,Address = updateEventViewModel.Address };
-        var existingEvent = _eventService.UpdateEvent(id, event);
+        var eventretrieved = new EventDTO {};
+        var existingEvent = _eventService.UpdateEvent(id, eventretrieved);
         if (!existingEvent) return NotFound();
-         
         return NoContent();
     }
 
@@ -109,8 +108,8 @@ public class EventsController : ControllerBase
     public ActionResult DeleteEvent(int id)
     {
         var eventToDelete = _database.Get<Event>().SingleOrDefault(x => x.Id == id);
-        if (!eventToDelete) return NotFound();
-        existingEvent.Active = false;
+        if (eventToDelete==null) return NotFound();
+        eventToDelete.Active = false;
         
         _database.Delete(eventToDelete);
 

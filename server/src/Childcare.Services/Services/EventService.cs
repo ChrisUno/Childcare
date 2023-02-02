@@ -23,27 +23,27 @@ namespace Childcare.Services.Services
         public IList<EventDTO> GetEvents()
         {
             var events = _database.Get<Event>().ToList();
-            return events.Select(x=> new EventDTO{ Id = x.id, Name = x.Name}).ToList();
+            return events.Select(x=> new EventDTO{ Id = x.Id, Name = x.Name}).ToList();
         }
 
         public EventDTO GetEventById(int id)
         {
-            var event = _database.Get<Event>().SingleOrDefault(x=>x.Id==id);
-            return new EventDTO {Id = Event.Id, Name = Event.Name, Description = Event.Description, Address.Id };
+            var eventRetrieved = _database.Get<Event>().SingleOrDefault(x=>x.Id==id);
+            return new EventDTO { };
         }
 
         public bool CreateEvent(EventDTO eventDTO)
         {
-            var event = new Event { Id = eventDTO.Id, Name = eventDTO.Name, Description = eventDTO.Description, TimeSlot = eventDTO.TimeSlot };
-            _database.Add(event);
+            var eventToCreate = new Event { };
+            _database.Add(eventToCreate);
             _database.SaveChanges();
             return true;
         }
 
         public bool DeleteEvent(int id)
         {
-            var user = _database.Get<Event>().SingleOrDefault(x => x.Id == id);
-            event.Active = false;
+            var eventDeleted = _database.Get<Event>().SingleOrDefault(x => x.Id == id);
+            eventDeleted.Active = false;
             _database.SaveChanges();
             return true;
         }
@@ -53,7 +53,12 @@ namespace Childcare.Services.Services
             var user = _database.Get<Event>()
                 .Where(x => x.Active == true)
                 .SingleOrDefault(x => x.Id == id);
+            return true;
+        }
 
+        public bool UpdateEvent(int id, EventDTO eventDto)
+        {
+            throw new NotImplementedException();
         }
     }
 }

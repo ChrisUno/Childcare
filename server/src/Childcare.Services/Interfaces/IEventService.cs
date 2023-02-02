@@ -6,5 +6,7 @@ namespace Childcare.Services.Interfaces
         IList<EventDTO> GetEvents();
         EventDTO GetEventById(int id);
         bool DeleteEvent(int id);
+
+        bool UpdateEvent(int id, EventDTO eventDto);
     }
 }

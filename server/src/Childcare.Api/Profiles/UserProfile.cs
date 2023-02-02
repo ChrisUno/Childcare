@@ -3,7 +3,6 @@ using AutoMapper;
 using Childcare.Api.ViewModels;
 using Childcare.Api.ViewModels.Addresses;
 using Childcare.Api.ViewModels.Users;
-using Childcare.Services.Dtos;
 using Childcare.Services.Services.DTOs;
 
 namespace Childcare.API.Profiles
@@ -19,6 +18,7 @@ namespace Childcare.API.Profiles
         private void ConfigureModelToDto()
         {
             CreateMap<CreateUserViewModel, UserDTO>();
+            CreateMap<UpdateUserViewModel, UserDTO>();
         }
 
         private void ConfigureDtoToModel()

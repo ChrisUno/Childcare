@@ -70,11 +70,8 @@ public class FamilyController : ControllerBase
     public ActionResult UpdateFamily(int id, [FromBody] UpdateFamilyViewModel updateFamilyViewModel)
     {
         var family = new FamilyDTO { Name = updateFamilyViewModel.Name };
-        var existingFamily = _familyService.UpdateFamily(id, family);
-        if (!existingFamily) return NotFound();
+        _familyService.UpdateFamily(id, family);
 
-        existingFamily.Name = updateFamilyViewModel.Name;
-        
         return NoContent();
     }
 

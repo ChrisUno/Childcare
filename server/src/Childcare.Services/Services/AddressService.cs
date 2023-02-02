@@ -23,13 +23,13 @@ namespace Childcare.Services.Services
         public IList<AddressDTO> GetAddresses()
         {
             var addresses = _database.Get<Address>().ToList();
-            return Addresses.Select(x=> new AddressDTO{ Id = x.id, Name = x.Name}).ToList();
+            return addresses.Select(x=> new AddressDTO{ Id = x.Id, Name = x.Name}).ToList();
         }
 
         public AddressDTO GetAddressById(int id)
         {
             var address = _database.Get<Address>().SingleOrDefault(x=>x.Id==id);
-            return new AddressDTO {id = Address.id, Name = Address.Name };
+            return new AddressDTO {Id = address.Id, Name = address.Name };
         }
 
 

@@ -5,6 +5,6 @@ namespace Childcare.Services.Interfaces
     {
         IList<FamilyDTO> GetFamilies();
         FamilyDTO GetFamilyById(int id);
-        bool UpdateFamily(int id);
+        bool UpdateFamily(int id, FamilyDTO family);
     }
 }

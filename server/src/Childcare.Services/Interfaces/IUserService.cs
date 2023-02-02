@@ -6,6 +6,12 @@ namespace Childcare.Services.Interfaces
         IList<UserDTO> GetUsers();
         UserDTO GetUserById(int id);
         bool UpdateUser(int id, UserDTO user);
+
+        bool CreateUser(UserDTO user);
+
+        bool DeleteUser(int id);
+
+
     }
-    
+
 }
