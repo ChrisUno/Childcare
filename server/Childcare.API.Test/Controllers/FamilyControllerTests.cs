@@ -3,16 +3,11 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using NSubstitute;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Childcare.Api.Test.Extensions;
-using Childcare.API.Controllers;
-using Childcare.API.ViewModels;
 using Childcare.Services.Services.DTOs;
 using Childcare.Services.Interfaces;
+using Childcare.Api.Controllers;
+using Childcare.Api.ViewModels;
+using Childcare.API.Test.Extensions;
 
 namespace Childcare.API.Test.Controllers
 {
@@ -30,7 +25,7 @@ namespace Childcare.API.Test.Controllers
         }
 
         [Fact]
-        public async Task GetFamily_WhenUsersExist_MapsAndReturns()
+        public void GetFamily_WhenFamiliesExist_MapsAndReturns()
         {
             // Arrange
             var familyDTOs = new List<FamilyDTO> { new FamilyDTO() };
@@ -38,29 +33,29 @@ namespace Childcare.API.Test.Controllers
             var controller = RetrieveController();
 
             _FamilyService.GetFamilies().Returns(familyDTOs);
-            _mapper.Map<List<FamilyViewModel>>(FamilyDTOs).Returns(FamilyViewModels);
+            _mapper.Map<List<FamilyViewModel>>(familyDTOs).Returns(familyViewModels);
 
             // Act
-            var actionResult = await controller.GetFamily();
+            var actionResult =  controller.GetFamilies();
 
             // Assert
             var result = actionResult.AssertObjectResult<IList<FamilyViewModel>, OkObjectResult>();
 
-            result.Should().BeSameAs(FamilyViewModels);
+            result.Should().BeSameAs(familyViewModels);
 
-            await _FamilyService.Received(1).GetFamilies();
+             _FamilyService.Received(1).GetFamilies();
 
-            _mapper.Received(1).Map<List<FamilyViewModel>>(FamilyDTOs);
+            _mapper.Received(1).Map<List<FamilyViewModel>>(familyDTOs);
         }
 
         [Fact]
-        public async Task GetFamily_WhenNoUsersExist_ReturnsNoContent()
+        public void GetFamily_WhenNoFamiliesExist_ReturnsNoContent()
         {
             // Arrange            
             var controller = RetrieveController();
 
             // Act
-            var actionResult = await controller.GetFamily();
+            var actionResult =  controller.GetFamilies();
 
             // Assert
             actionResult.AssertResult<IList<FamilyViewModel>, NoContentResult>();
@@ -68,7 +63,7 @@ namespace Childcare.API.Test.Controllers
 
         private FamilyController RetrieveController()
         {
-            return new FamilyController(_logger, _FamilyService, _mapper);
+            return new FamilyController(_logger, _mapper, _FamilyService);
         }
     }
 }

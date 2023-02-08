@@ -32,6 +32,14 @@ namespace Childcare.Services.Services
             return new AddressDTO {Id = address.Id, Name = address.Name };
         }
 
+        public bool UpdateAddress(int id, AddressDTO address)
+        {
+            throw new NotImplementedException();
+        }
 
+        public bool DeleteAddress(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

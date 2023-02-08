@@ -8,5 +8,9 @@ namespace Childcare.Services.Interfaces
         bool DeleteEvent(int id);
 
         bool UpdateEvent(int id, EventDTO eventDto);
+
+        bool CreateEvent(EventDTO eventDto);
+
+        
     }
 }

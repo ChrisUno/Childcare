@@ -9,6 +9,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 using Childcare.Services.Interfaces;
 using Childcare.Services.Services.DTOs;
+using AutoMapper;
+using Childcare.Services.Services;
 
 namespace Childcare.Api.Controllers;
 
@@ -17,50 +19,31 @@ namespace Childcare.Api.Controllers;
 public class FamilyController : ControllerBase
 {
     private readonly ILogger<FamilyController> _logger;
-    private readonly IDatabase _database;
+    private readonly IMapper _mapper;
     private readonly IFamilyService _familyService;
 
 
-    public FamilyController(ILogger<FamilyController> logger, IDatabase database, IFamilyService familyService)
+    public FamilyController(ILogger<FamilyController> logger, IMapper mapper, IFamilyService familyService)
     {
         _logger = logger;
-        _database = database;
+        _mapper = mapper;
         _familyService = familyService;
     }
 
     [HttpGet]
     public ActionResult<IList<FamilyViewModel>> GetFamilies()
     {
-
-        return _database.Get<Family>().Select(x => new FamilyViewModel
-        
-        {
-            Id = x.Id,
-            Name = x.Name
-        })
-        .ToList();
+        var families = _familyService.GetFamilies();
+        return Ok (_mapper.Map<List<FamilyViewModel>>(families));
     }
 
     
     [HttpGet("{id}")]
     public ActionResult<FamilyDetailViewModel> GetFamilyById(int id)
     {
-        var family = _database.Get<Family>().Include(x => x.Users).SingleOrDefault(x => x.Id == id);
-
+        var family = _familyService.GetFamilyById(id);
         if (family == null) return NoContent();
-        
-        return Ok(new FamilyDetailViewModel()
-        {
-            Id = family.Id, 
-            Name = family.Name,
-            Users = family.Users.Select(x => new UserViewModel
-            {
-                Id= x.Id,
-                Email = x.Email,
-                FirstName = x.FirstName,
-                LastName = x.LastName
-            }).ToList()
-        });
+        return Ok(_mapper.Map<FamilyViewModel>(family));
     }
 
     
@@ -69,33 +52,22 @@ public class FamilyController : ControllerBase
     [HttpPut("{id}")]
     public ActionResult UpdateFamily(int id, [FromBody] UpdateFamilyViewModel updateFamilyViewModel)
     {
-        var family = new FamilyDTO { Name = updateFamilyViewModel.Name };
-        _familyService.UpdateFamily(id, family);
-
+        _familyService.UpdateFamily(id, _mapper.Map<FamilyDTO>(updateFamilyViewModel));
         return NoContent();
     }
 
     [HttpPost]
     public ActionResult CreateFamily([FromBody] CreateFamilyViewModel createFamilyViewModel)
     {
+       _familyService.CreateFamily(_mapper.Map<FamilyDTO>(createFamilyViewModel));
+        return StatusCode((int)HttpStatusCode.Created);
 
-        var newFamily = new Family
-        {
-            Name =createFamilyViewModel.Name
-        };
-        _database.Add(newFamily);
-        _database.SaveChanges();
-        return StatusCode((int) HttpStatusCode.Created);
     }
 
     [HttpDelete("{id}")]
     public ActionResult DeleteFamily(int id)
     {
-        var FamilyToDelete = _database.Get<Family>().Where(x => x.Id == id).SingleOrDefault();
-        if (FamilyToDelete == null) return NotFound();
-        
-        _database.Delete(FamilyToDelete);
-
-        return Ok(FamilyToDelete);
+        _familyService.DeleteFamily(id);
+        return StatusCode((int)HttpStatusCode.OK);
     }
 }

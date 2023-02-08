@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Childcare.Api.Controllers;
 using Childcare.Api.ViewModels;
+using Childcare.API.Test.Extensions;
 using Childcare.Services.Interfaces;
 using Childcare.Services.Services.DTOs;
 using FluentAssertions;
@@ -25,7 +26,7 @@ namespace Childcare.API.Test.Controllers
         }
 
         [Fact]
-        public async Task GetUsers_WhenUsersExist_MapsAndReturns()
+        public void GetUsers_WhenUsersExist_MapsAndReturns()
         {
             // Arrange
             var userDtos = new List<UserDTO> { new UserDTO() };
@@ -36,26 +37,26 @@ namespace Childcare.API.Test.Controllers
             _mapper.Map<List<UserViewModel>>(userDtos).Returns(userViewModels);
 
             // Act
-            var actionResult = await controller.GetUsers();
+            var actionResult = controller.GetUsers();
 
             // Assert
             var result = actionResult.AssertObjectResult<IList<UserViewModel>, OkObjectResult>();
 
             result.Should().BeSameAs(userViewModels);
 
-            await _userService.Received(1).GetUsers();
+             _userService.Received(1).GetUsers();
 
             _mapper.Received(1).Map<List<UserViewModel>>(userDtos);
         }
 
         [Fact]
-        public async Task GetUsers_WhenNoUsersExist_ReturnsNoContent()
+        public void GetUsers_WhenNoUsersExist_ReturnsNoContent()
         {
             // Arrange            
             var controller = RetrieveController();
 
             // Act
-            var actionResult = await controller.GetUsers();
+            var actionResult = controller.GetUsers();
 
             // Assert
             actionResult.AssertResult<IList<UserViewModel>, NoContentResult>();
@@ -63,7 +64,7 @@ namespace Childcare.API.Test.Controllers
 
         private UsersController RetrieveController()
         {
-            return new UsersController(_logger, _userService, _mapper);
+            return new UsersController(_logger, _mapper, _userService );
         }
     }
 }

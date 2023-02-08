@@ -5,5 +5,11 @@ namespace Childcare.Services.Interfaces
     {
         IList<RelationshipTypeDTO> GetRelationshipTypes();
         RelationshipTypeDTO GetRelationshipTypeById(int id);
+
+        bool UpdateRelationshipType(int id, RelationshipTypeDTO relationshipType);
+
+        bool CreateRelationshipType(RelationshipTypeDTO relationshipType);
+
+        bool DeleteRelationshipType(int id);
     }
 }

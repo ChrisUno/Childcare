@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 using Childcare.Services.Interfaces;
 using Childcare.Services.Services.DTOs;
+using AutoMapper;
 
 namespace Childcare.Api.Controllers;
 
@@ -18,88 +19,42 @@ public class EventsController : ControllerBase
 {
 
     private readonly ILogger<EventsController> _logger;
-    private readonly IDatabase _database;
+    private readonly IMapper _mapper;
     private readonly IEventService _eventService;
 
-    public EventsController(ILogger<EventsController> logger, IDatabase database, IEventService eventService)
+    public EventsController(ILogger<EventsController> logger, IMapper mapper, IEventService eventService)
     {
         _logger = logger;
-        _database = database;
+        _mapper = mapper;
         _eventService = eventService;
     }
 
     [HttpGet]
     public ActionResult<IList<EventViewModel>> GetEvents()
     {
-
-        return _database.Get<Event>().Select(x => new EventViewModel
-
-        {
-            Id = x.Id,
-            Name = x.Name,
-            Description = x.Description
-        })
-            .ToList();
+        var events = _eventService.GetEvents();
+        return Ok(_mapper.Map<List<EventViewModel>>(events));
     }
 
     [HttpGet("{id}")]
     public ActionResult<EventDetailViewModel> GetEventById(int id)
-    {
-        var singleEvent = _database.Get<Event>().Include(x => x.Address).SingleOrDefault(x => x.Id == id);
-
+    { 
+        var singleEvent = _eventService.GetEventById(id);
         if (singleEvent == null) return NoContent();
-
-        return Ok(new EventDetailViewModel()
-        {
-            Id = singleEvent.Id,
-            Name = singleEvent.Name,
-            Description = singleEvent.Description,
-            TimeSlot = singleEvent.Timeslot,
-            Address = new AddressViewModel
-            {
-                Id = singleEvent.Address.Id,
-                Name = singleEvent.Address.Name,
-                AddressLine1 = singleEvent.Address.AddressLine1,
-                AddressLine2 = singleEvent.Address.AddressLine2,
-                Region = singleEvent.Address.Region,
-                Country = singleEvent.Address.Country,
-                Zipcode = singleEvent.Address.Zipcode
-
-            }
-        });
+        return Ok(_mapper.Map<EventViewModel>(singleEvent));
     }
 
     [HttpPost]
     public ActionResult CreateEvent([FromBody] CreateEventViewModel createEventViewModel)
     {
-
-        var newEvent = new Event
-        {
-            Name = createEventViewModel.Name,
-            Description = createEventViewModel.Description,
-            Timeslot = createEventViewModel.TimeSlot,
-            Address = new Address
-            {
-                Name = createEventViewModel.Address.Name,
-                AddressLine1 = createEventViewModel.Address.AddressLine1,
-                AddressLine2 = createEventViewModel.Address.AddressLine2,
-                Country = createEventViewModel.Address.Country,
-                Region = createEventViewModel.Address.Region,
-                Zipcode = createEventViewModel.Address.Zipcode
-            }
-
-        };
-        _database.Add(newEvent);
-        _database.SaveChanges();
+        _eventService.CreateEvent(_mapper.Map<EventDTO>(createEventViewModel));
         return StatusCode((int)HttpStatusCode.Created);
     }
 
     [HttpPut("{id}")]
     public ActionResult UpdateEvent(int id, [FromBody] UpdateEventViewModel updateEventViewModel)
     {
-        var eventretrieved = new EventDTO {};
-        var existingEvent = _eventService.UpdateEvent(id, eventretrieved);
-        if (!existingEvent) return NotFound();
+        _eventService.UpdateEvent(id, _mapper.Map<EventDTO>(updateEventViewModel));
         return NoContent();
     }
 
@@ -107,12 +62,7 @@ public class EventsController : ControllerBase
     [HttpDelete("{id}")]
     public ActionResult DeleteEvent(int id)
     {
-        var eventToDelete = _database.Get<Event>().SingleOrDefault(x => x.Id == id);
-        if (eventToDelete==null) return NotFound();
-        eventToDelete.Active = false;
-        
-        _database.Delete(eventToDelete);
-
-        return Ok(eventToDelete);
+        _eventService.DeleteEvent(id);
+        return StatusCode((int)HttpStatusCode.OK);
     }
 }

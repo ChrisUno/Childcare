@@ -32,6 +32,19 @@ namespace Childcare.Services.Services
             return new RelationshipTypeDTO {Id = relationshipType.Id, Relationship = relationshipType.Relationship };
         }
 
+        public bool UpdateRelationshipType(int id, RelationshipTypeDTO relationshipType)
+        {
+            throw new NotImplementedException();
+        }
 
+        public bool CreateRelationshipType(RelationshipTypeDTO relationshipType)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool DeleteRelationshipType(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -9,6 +9,7 @@ using Microsoft.Extensions.FileProviders;
 using Childcare.Services.Interfaces;
 using Childcare.Services.Services.DTOs;
 using Childcare.Services.Services;
+using AutoMapper;
 
 namespace Childcare.Api.Controllers;
 
@@ -18,13 +19,13 @@ public class RelationshipTypesController : ControllerBase
 {
 
     private readonly ILogger<RelationshipTypesController> _logger;
-    private readonly IDatabase _database;
+    private readonly IMapper _mapper;
     private readonly IRelationshipTypeService _relationshipTypeService;
 
-    public RelationshipTypesController(ILogger<RelationshipTypesController> logger, IDatabase database, IRelationshipTypeService relationshipTypeService)
+    public RelationshipTypesController(ILogger<RelationshipTypesController> logger, IMapper mapper, IRelationshipTypeService relationshipTypeService)
     {
         _logger = logger;
-        _database = database;
+        _mapper =   mapper;
         _relationshipTypeService = relationshipTypeService;
     }
     
@@ -32,25 +33,14 @@ public class RelationshipTypesController : ControllerBase
     [HttpGet]
     public ActionResult<IList<RelationshipTypeViewModel>> GetRelations()
     {
-
-        return _database.Get<RelationshipType>().Select(x => new RelationshipTypeViewModel
-        
-            {
-                Id = x.Id,
-                Relationship = x.Relationship
-            })
-            .ToList();
+        var relations = _relationshipTypeService.GetRelationshipTypes();
+        return Ok(_mapper.Map<List<RelationshipTypeViewModel>>(relations));
     }
+
     [HttpPost]
     public ActionResult CreateRelationshipType([FromBody] CreateRelationshipTypeViewModel createRelationshipTypeViewModel)
     {
-
-        var newRelationshipType = new RelationshipType
-        {
-            Relationship = createRelationshipTypeViewModel.Relationship
-        };
-        _database.Add(newRelationshipType);
-        _database.SaveChanges();
+        _relationshipTypeService.CreateRelationshipType ( _mapper.Map<RelationshipTypeDTO>(createRelationshipTypeViewModel));
         return StatusCode((int) HttpStatusCode.Created);
     }
 }

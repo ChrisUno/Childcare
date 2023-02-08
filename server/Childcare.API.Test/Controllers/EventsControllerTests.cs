@@ -3,16 +3,11 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using NSubstitute;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Childcare.Api.Test.Extensions;
-using Childcare.API.Controllers;
-using Childcare.API.ViewModels;
-using Childcare.Services.Services.DTOs;EventService
+using Childcare.Services.Services.DTOs;
 using Childcare.Services.Interfaces;
+using Childcare.Api.Controllers;
+using Childcare.Api.ViewModels;
+using Childcare.API.Test.Extensions;
 
 namespace Childcare.API.Test.Controllers
 {
@@ -25,12 +20,12 @@ namespace Childcare.API.Test.Controllers
         public EventsControllerTests()
         {
             _EventService = Substitute.For<IEventService>();
-            _logger = Substitute.For<ILogger<EventController>>();
+            _logger = Substitute.For<ILogger<EventsController>>();
             _mapper = Substitute.For<IMapper>();
         }
 
         [Fact]
-        public async Task GetEvent_WhenUsersExist_MapsAndReturns()
+        public void GetEvent_WhenUsersExist_MapsAndReturns()
         {
             // Arrange
             var eventDTOs = new List<EventDTO> { new EventDTO() };
@@ -38,37 +33,37 @@ namespace Childcare.API.Test.Controllers
             var controller = RetrieveController();
 
             _EventService.GetEvents().Returns(eventDTOs);
-            _mapper.Map<List<EventViewModel>>(EventDTOs).Returns(EventViewModels);
+            _mapper.Map<List<EventViewModel>>(eventDTOs).Returns(eventViewModels);
 
             // Act
-            var actionResult = await controller.GetEvent();
+            var actionResult =  controller.GetEvents();
 
             // Assert
             var result = actionResult.AssertObjectResult<IList<EventViewModel>, OkObjectResult>();
 
-            result.Should().BeSameAs(EventViewModels);
+            result.Should().BeSameAs(eventViewModels);
 
-            await _EventService.Received(1).GetEvents();
+             _EventService.Received(1).GetEvents();
 
-            _mapper.Received(1).Map<List<EventViewModel>>(EventDTOs);
+            _mapper.Received(1).Map<List<EventViewModel>>(eventDTOs);
         }
 
         [Fact]
-        public async Task GetEvent_WhenNoUsersExist_ReturnsNoContent()
+        public void GetEvent_WhenNoEventsExist_ReturnsNoContent()
         {
             // Arrange            
             var controller = RetrieveController();
 
             // Act
-            var actionResult = await controller.GetEvent();
+            var actionResult =  controller.GetEvents();
 
             // Assert
             actionResult.AssertResult<IList<EventViewModel>, NoContentResult>();
         }
 
-        private EventController RetrieveController()
+        private EventsController RetrieveController()
         {
-            return new EventController(_logger, _EventService, _mapper);
+            return new EventsController(_logger, _mapper, _EventService );
         }
     }
 }

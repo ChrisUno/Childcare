@@ -3,19 +3,12 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using NSubstitute;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Childcare.Api.Test.Extensions;
-using Childcare.API.Controllers;
-using Childcare.API.ViewModels;
 using Childcare.Services.Services.DTOs;
 using Childcare.Services.Interfaces;
 using Childcare.Api.Controllers;
 using Childcare.Api.ViewModels;
 using Childcare.API.Test.Extensions;
+using Unosquare.EntityFramework.Specification.EFCore.Extensions;
 
 namespace Childcare.API.Test.Controllers
 {
@@ -33,7 +26,7 @@ namespace Childcare.API.Test.Controllers
         }
 
         [Fact]
-        public async Task GetRelationshipTypes_WhenUsersExist_MapsAndReturns()
+        public void GetRelationshipTypes_WhenUsersExist_MapsAndReturns()
         {
             // Arrange
             var relationshipTypeDTOs = new List<RelationshipTypeDTO> { new RelationshipTypeDTO() };
@@ -57,12 +50,13 @@ namespace Childcare.API.Test.Controllers
         }
 
         [Fact]
-        public void GetRelationshipTypes_WhenNoUsersExist_ReturnsNoContent()
+        public void GetRelationshipTypes_WhenNoRelationshipTypesExist_ReturnsNoContent()
         {
             // Arrange            
             var controller = RetrieveController();
 
             // Act
+
             var actionResult = controller.GetRelations();
 
             // Assert
@@ -71,7 +65,7 @@ namespace Childcare.API.Test.Controllers
 
         private RelationshipTypesController RetrieveController()
         {
-            return new RelationshipTypesController(_logger, _RelationshipTypeService, _mapper);
+            return new RelationshipTypesController(_logger, _mapper, _RelationshipTypeService);
         }
     }
 }

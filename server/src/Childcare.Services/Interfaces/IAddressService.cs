@@ -6,5 +6,9 @@ namespace Childcare.Services.Interfaces
         IList<AddressDTO> GetAddresses();
         AddressDTO GetAddressById(int id);
 
+        bool UpdateAddress(int id, AddressDTO address);
+
+        bool DeleteAddress(int id); 
+
     }
 }
