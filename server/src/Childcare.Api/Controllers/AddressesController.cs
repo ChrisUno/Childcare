@@ -11,12 +11,13 @@ using Childcare.Services.Interfaces;
 using Childcare.Services.Services.DTOs;
 using Childcare.Services.Services;
 using AutoMapper;
+using Childcare.Api.Controllers.Base;
 
 namespace Childcare.Api.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class AddressesController : ControllerBase
+public class AddressesController : ChildcareBaseController
 {
     private readonly ILogger<AddressesController> _logger;
     private readonly IMapper _mapper;
@@ -33,7 +34,7 @@ public class AddressesController : ControllerBase
     public ActionResult<IList<AddressViewModel>> GetAddresses()
     {
         var addresses = _addressService.GetAddresses();
-        return Ok(_mapper.Map<AddressViewModel>(addresses));
+        return OkOrNoContent (_mapper.Map<List<AddressViewModel>>(addresses));
     }
 
     [HttpGet("{id}")]
@@ -41,7 +42,7 @@ public class AddressesController : ControllerBase
     {
         var address = _addressService.GetAddressById(id);
         if (address == null) return NoContent();
-        return Ok(_mapper.Map<AddressViewModel>(address));
+        return OkOrNotFound (_mapper.Map<AddressViewModel>(address));
     }
     
     [HttpPost]

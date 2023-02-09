@@ -10,12 +10,13 @@ using Microsoft.Extensions.FileProviders;
 using Childcare.Services.Interfaces;
 using Childcare.Services.Services.DTOs;
 using AutoMapper;
+using Childcare.Api.Controllers.Base;
 
 namespace Childcare.Api.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class UsersController : ControllerBase
+public class UsersController : ChildcareBaseController
 {
     private readonly ILogger<UsersController> _logger;
     private readonly IMapper _mapper;
@@ -33,7 +34,7 @@ public class UsersController : ControllerBase
     public ActionResult<IList<UserViewModel>> GetUsers()
     {
         var users = _userService.GetUsers();
-        return Ok (_mapper.Map<List<UserViewModel>>(users));
+        return OkOrNoContent(_mapper.Map<List<UserViewModel>>(users));
 
     }
 
@@ -42,7 +43,7 @@ public class UsersController : ControllerBase
     { 
         var user = _userService.GetUserById(id);
         if (user == null) return NoContent();
-        return Ok(_mapper.Map<UserViewModel>(user));
+        return OkOrNoContent(_mapper.Map<UserViewModel>(user));
     }
     
     [HttpPost]

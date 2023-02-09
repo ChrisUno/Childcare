@@ -10,12 +10,13 @@ using Microsoft.Extensions.FileProviders;
 using Childcare.Services.Interfaces;
 using Childcare.Services.Services.DTOs;
 using AutoMapper;
+using Childcare.Api.Controllers.Base;
 
 namespace Childcare.Api.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class EventsController : ControllerBase
+public class EventsController : ChildcareBaseController
 {
 
     private readonly ILogger<EventsController> _logger;
@@ -33,7 +34,7 @@ public class EventsController : ControllerBase
     public ActionResult<IList<EventViewModel>> GetEvents()
     {
         var events = _eventService.GetEvents();
-        return Ok(_mapper.Map<List<EventViewModel>>(events));
+        return OkOrNoContent(_mapper.Map<List<EventViewModel>>(events));
     }
 
     [HttpGet("{id}")]
@@ -41,7 +42,7 @@ public class EventsController : ControllerBase
     { 
         var singleEvent = _eventService.GetEventById(id);
         if (singleEvent == null) return NoContent();
-        return Ok(_mapper.Map<EventViewModel>(singleEvent));
+        return OkOrNotFound(_mapper.Map<EventViewModel>(singleEvent));
     }
 
     [HttpPost]

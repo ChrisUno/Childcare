@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 namespace Childcare.Service.Test.Services
 {
     internal class AddressServiceTests
-    { 
+    {
     }
+}
 
 
   

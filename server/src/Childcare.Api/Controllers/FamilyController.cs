@@ -11,12 +11,13 @@ using Childcare.Services.Interfaces;
 using Childcare.Services.Services.DTOs;
 using AutoMapper;
 using Childcare.Services.Services;
+using Childcare.Api.Controllers.Base;
 
 namespace Childcare.Api.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class FamilyController : ControllerBase
+public class FamilyController : ChildcareBaseController
 {
     private readonly ILogger<FamilyController> _logger;
     private readonly IMapper _mapper;
@@ -34,7 +35,7 @@ public class FamilyController : ControllerBase
     public ActionResult<IList<FamilyViewModel>> GetFamilies()
     {
         var families = _familyService.GetFamilies();
-        return Ok (_mapper.Map<List<FamilyViewModel>>(families));
+        return OkOrNoContent (_mapper.Map<List<FamilyViewModel>>(families));
     }
 
     
@@ -43,7 +44,7 @@ public class FamilyController : ControllerBase
     {
         var family = _familyService.GetFamilyById(id);
         if (family == null) return NoContent();
-        return Ok(_mapper.Map<FamilyViewModel>(family));
+        return OkOrNotFound(_mapper.Map<FamilyViewModel>(family));
     }
 
     

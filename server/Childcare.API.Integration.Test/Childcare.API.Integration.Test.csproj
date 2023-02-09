@@ -5,7 +5,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F432A51B-C86B-401E-8794-909B1CAA4974}</ProjectGuid>
+    <ProjectGuid>{441C982F-A26B-4099-8876-F156095318DD}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Childcare.API.Integration.Test</RootNamespace>

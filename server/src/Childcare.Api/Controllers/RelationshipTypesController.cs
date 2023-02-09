@@ -10,12 +10,13 @@ using Childcare.Services.Interfaces;
 using Childcare.Services.Services.DTOs;
 using Childcare.Services.Services;
 using AutoMapper;
+using Childcare.Api.Controllers.Base;
 
 namespace Childcare.Api.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class RelationshipTypesController : ControllerBase
+public class RelationshipTypesController : ChildcareBaseController
 {
 
     private readonly ILogger<RelationshipTypesController> _logger;
@@ -34,7 +35,7 @@ public class RelationshipTypesController : ControllerBase
     public ActionResult<IList<RelationshipTypeViewModel>> GetRelations()
     {
         var relations = _relationshipTypeService.GetRelationshipTypes();
-        return Ok(_mapper.Map<List<RelationshipTypeViewModel>>(relations));
+        return OkOrNoContent(_mapper.Map<List<RelationshipTypeViewModel>>(relations));
     }
 
     [HttpPost]
