@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 using Childcare.Dal.Interfaces;
 using Childcare.Dal.Models;
 using Childcare.Services.Interfaces;
@@ -13,11 +14,13 @@ namespace Childcare.Services.Services
 {
     public class RelationshipTypeService : IRelationshipTypeService
     {
-        private readonly IDatabase _database;
-        
-        public RelationshipTypeService(IDatabase database)
+        private readonly IChildcareDatabase _database;
+        private readonly IMapper _mapper;
+
+        public RelationshipTypeService(IChildcareDatabase database, IMapper mapper)
         {
             _database = database;
+            _mapper = mapper;
         } 
 
         public IList<RelationshipTypeDTO> GetRelationshipTypes()

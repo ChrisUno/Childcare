@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 using Childcare.Dal.Interfaces;
 using Childcare.Dal.Models;
 using Childcare.Services.Interfaces;
@@ -12,11 +13,13 @@ namespace Childcare.Services.Services
 {
     public class FamilyService : IFamilyService
     {
-        private readonly IDatabase _database;
-        
-        public FamilyService(IDatabase database)
+        private readonly IChildcareDatabase _database;
+        private readonly IMapper _mapper;
+
+        public FamilyService(IChildcareDatabase database, IMapper mapper)
         {
             _database = database;
+            _mapper = mapper;
         } 
 
         public IList<FamilyDTO> GetFamilies()

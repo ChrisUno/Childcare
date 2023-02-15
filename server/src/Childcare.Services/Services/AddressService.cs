@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System .Threading.Tasks;
+using AutoMapper;
 using Childcare.Dal.Interfaces;
 using Childcare.Dal.Models;
 using Childcare.Services.Interfaces;
@@ -13,9 +14,9 @@ namespace Childcare.Services.Services
 {
     public class AddressService : IAddressService
     {
-        private readonly IDatabase _database;
+        private readonly IChildcareDatabase _database;
         
-        public AddressService(IDatabase database)
+        public AddressService(IChildcareDatabase database, IMapper mapper)
         {
             _database = database;
         } 
