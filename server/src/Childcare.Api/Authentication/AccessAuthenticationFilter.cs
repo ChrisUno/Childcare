@@ -4,6 +4,7 @@ using System.Text.Encodings.Web;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Childcare.API.Authentication;
 
 namespace Childcare.Api.Authentication;
 
@@ -46,5 +47,12 @@ public class AccessAuthenticationFilter : AuthenticationHandler<AuthenticationSc
 
         }
 
+    }
+    private TokenTypes RetrieveTokenTypes()
+    {
+        var routeValues = _contextAccessor.HttpContext.Request.RouteValues;
+        var controllerName = routeValues["controller"].ToString();
+        var actionName = routeValues["action"].ToString();
+        return controllerName == "Authentication" && actionName == "Refresh" ? TokenTypes.RefreshToken : TokenTypes.AccessToken;
     }
 }

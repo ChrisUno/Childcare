@@ -11,6 +11,7 @@ using Childcare.Services.Interfaces;
 using Childcare.Services.Services.DTOs;
 using AutoMapper;
 using Childcare.Api.Controllers.Base;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Childcare.Api.Controllers;
 
@@ -47,6 +48,7 @@ public class UsersController : ChildcareBaseController
     }
     
     [HttpPost]
+    [AllowAnonymous]
     public ActionResult CreateUser([FromBody] CreateUserViewModel createUserViewModel)
     {
         _userService.CreateUser(_mapper.Map<UserDTO>(createUserViewModel));

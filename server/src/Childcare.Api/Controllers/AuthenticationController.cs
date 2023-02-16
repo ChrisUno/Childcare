@@ -31,38 +31,38 @@ namespace Childcare.API.Controllers
         [AllowAnonymous]
         public ActionResult<AuthenticationResultViewModel> Authenticate([FromBody] AuthenticationRequestViewModel authenticationRequestViewModel)
         {
-            var family =
+            var user =
             _service.Authenticate(authenticationRequestViewModel.Email, authenticationRequestViewModel.Password);
 
-            if (family is null)
+            if (user is null)
                 return Unauthorized();
 
             return new AuthenticationResultViewModel
             {
-                AccessToken = GenerateToken(family, 600),
-                RefreshToken = GenerateToken(family, 18000)
+                AccessToken = GenerateToken(user, 600),
+                RefreshToken = GenerateToken(user, 18000)
             };
         }
 
         [HttpGet]
-        public async Task<ActionResult<AuthenticationResultViewModel>> Refresh([FromServices] IAuthorizedAccountProvider authorizedAccountProvider)
+        public ActionResult<AuthenticationResultViewModel> Refresh([FromServices] IAuthorizedAccountProvider authorizedAccountProvider)
         {
 
-            var family = await authorizedAccountProvider.GetLoggedInAccount();
+            var user = authorizedAccountProvider.GetLoggedInAccount();
 
-            if (family is null)
+            if (user is null)
                 return Unauthorized();
 
             var authenticationResult = new AuthenticationResultViewModel
             {
-                AccessToken = GenerateToken(family, 600),
-                RefreshToken = GenerateToken(family, 18000)
+                AccessToken = GenerateToken(user, 600),
+                RefreshToken = GenerateToken(user, 18000)
             };
 
             return new ActionResult<AuthenticationResultViewModel>(authenticationResult);
         }
 
-        private string GenerateToken(UserDTO family, int expirationTimeInMinutes)
+        private string GenerateToken(UserDTO user, int expirationTimeInMinutes)
         {
             var secretKey = Encoding.UTF8.GetBytes("JWTMySonTheDayYouWereBorn");
             var securityKey = new SymmetricSecurityKey(secretKey);
@@ -74,8 +74,8 @@ namespace Childcare.API.Controllers
 
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                new Claim(JwtRegisteredClaimNames.Sub, family.Id.ToString()),
-                new Claim(ClaimTypes.Email, family.Email),
+                new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
+                new Claim(ClaimTypes.Email, user.Email),
                 new Claim(ClaimTypes.Role, "User")
                 }),
                 Expires = expiryTime,

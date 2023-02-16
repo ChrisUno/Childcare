@@ -9,6 +9,7 @@ using Childcare.Services.Exceptions;
 using Childcare.Services.Interfaces;
 using Childcare.Services.Profiles;
 using Childcare.Services.Services;
+using Childcare.Services.Services.DTOs;
 
 namespace Childcare.Service.Test.Services
 {
@@ -16,36 +17,34 @@ namespace Childcare.Service.Test.Services
     {
         private readonly IChildcareDatabase _database;
         private readonly IMapper _mapper;
-        private readonly IFixture _fixture;
+        
 
         public AddressServiceTests()
         {
             _database = Substitute.For<IChildcareDatabase>();
-            _mapper = GetMapper();
-            _fixture = new Fixture();
-
-            _fixture.Behaviors.OfType<ThrowingRecursionBehavior>().ToList()
-                .ForEach(b => _fixture.Behaviors.Remove(b));
-            _fixture.Behaviors.Add(new OmitOnRecursionBehavior(1));
+            _mapper = Substitute.For<IMapper>();
         }
 
         [Fact]
-        public async Task DeleteAddress_AddressDoesNotExist_ThrowNotFoundException()
+        public void DeleteAddress_Addressexists_DeletesAddress()
         {
             // Arrange 
             const int correctId = 1;
-            const int incorrectId = 2;
+            var addresses = new List<Address> { new Address { Id = correctId } };
 
-            var correctAddress = _fixture.Build<Address>().With(x => x.Id, correctId).Create();
-            var incorrectAddress = _fixture.Build<Address>().With(x => x.Id, incorrectId).Create();
 
-            _database.Get<Address>().Returns(new List<Address> { incorrectAddress }.AsQueryable().BuildMock());
+            _database.Get<Address>().Returns(addresses.AsQueryable().BuildMock());
 
             var service = RetrieveService();
 
-            // Act & Assert
-             Assert.Throws<NotFoundException>(() => service.DeleteAddress(correctId));
-            _database.Received(1).Get<Address>();
+            // Act
+            
+            var result = service.DeleteAddress(correctId);
+            
+            //Assertion
+            _database.Received(1).SaveChanges();
+            result.Should().BeTrue();
+            _database.Received(1).Delete(Arg.Is<Address>( x => x.Id == correctId));
         }
 
         [Fact]
@@ -56,47 +55,79 @@ namespace Childcare.Service.Test.Services
 
             var address = new Address { Id = id };
             var addresses = new List<Address> { address };
+            var addressDTO = new List<AddressDTO> { new AddressDTO { Id = address.Id } };
 
             _database.Get<Address>().Returns(addresses.AsQueryable().BuildMock());
 
             var service = RetrieveService();
 
             // Act
-            var result =  service.GetAddressById(id);
+            var result = service.GetAddressById(id);
 
             // Assert
-            result.Should().BeEquivalentTo(address, options => options.ExcludingMissingMembers());
+            result.Should().NotBeNull();
+            result.Should().BeEquivalentTo(addressDTO.ElementAt(0));
         }
 
         [Fact]
-        public void GetAddresss_WhenAddresssExist_ReturnsAddressListAsync()
+        public void GetAddresses_WhenAddressesExist_ReturnsAddressList()
         {
             // Arrange
-            var addresses = _fixture.Build<Address>().CreateMany();
+            var addresses = new List<Address>()
+            { new Address { Id = 1 } };
+            var addressDTOs = new List<AddressDTO>()
+            { new AddressDTO { Id = 1 } };
 
             _database.Get<Address>().Returns(addresses.AsQueryable().BuildMock());
 
             var service = RetrieveService();
 
             // Act
-            var result =  service.GetAddresses();
+            var result = service.GetAddresses();
 
             // Assert
-            result.Should().BeEquivalentTo(addresses, options => options.ExcludingMissingMembers());
+            result.Should().BeEquivalentTo(addressDTOs, options => options.ExcludingMissingMembers());
+        }
+
+        [Fact]
+        public void CreateAddress_WhenValidDataPassed_AddToDatabase()
+        {
+            //Arrange
+            var address = new Address { AddressLine1 = "potato" };
+            var addressDTO = new AddressDTO { AddressLine1 = "potato" };
+
+            var service = RetrieveService();
+            _mapper.Map<Address>(addressDTO).Returns(address);
+            //Act
+            var result = service.CreateAddress(addressDTO);
+            //Assert
+            _database.Received(1).SaveChanges();
+            result.Should().BeTrue();
+            _database.Received(1).Add(Arg.Is<Address>(x => x.AddressLine1 == "potato"));
+        }
+
+        [Fact]
+        public void UpdateAddress_WhenValidDataPassed_AddToDatabase()
+        {
+            //Arrange
+            var address = new Address { Id=1, AddressLine1 = "potato" };
+            var addressDTO = new AddressDTO {Id=1, AddressLine1 = "chips" };
+            var addresses = new List<Address> { address };
+
+            var service = RetrieveService();
+            _database.Get<Address>().Returns(addresses.AsQueryable());
+            //Act
+            var result = service.UpdateAddress(1,addressDTO);
+            //Assert
+            _database.Received(1).SaveChanges();
+            result.Should().BeTrue();
+            
         }
 
         private IAddressService RetrieveService()
         {
             return new AddressService(_database, _mapper);
         }
-
-        private static IMapper GetMapper()
-        {
-            var config = new MapperConfiguration(cfg => {
-                cfg.AddProfile<AddressProfile>();
-            });
-
-            return new Mapper(config);
-        }
+        
     }
 }

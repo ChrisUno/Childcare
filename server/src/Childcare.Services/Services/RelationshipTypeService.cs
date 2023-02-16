@@ -21,33 +21,61 @@ namespace Childcare.Services.Services
         {
             _database = database;
             _mapper = mapper;
-        } 
+        }
 
         public IList<RelationshipTypeDTO> GetRelationshipTypes()
         {
             var relationshipTypes = _database.Get<RelationshipType>().ToList();
-            return relationshipTypes.Select(x=> new RelationshipTypeDTO{ Id = x.Id, Relationship = x.Relationship}).ToList();
+            return relationshipTypes.Select(x => new RelationshipTypeDTO { Id = x.Id, Relationship = x.Relationship }).ToList();
         }
 
         public RelationshipTypeDTO GetRelationshipTypeById(int id)
         {
-            var relationshipType = _database.Get<RelationshipType>().SingleOrDefault(x=>x.Id==id);
-            return new RelationshipTypeDTO {Id = relationshipType.Id, Relationship = relationshipType.Relationship };
+            var relationshipType = _database
+                .Get<RelationshipType>()
+                .SingleOrDefault(x => x.Id == id);
+            return new RelationshipTypeDTO { Id = relationshipType.Id, Relationship = relationshipType.Relationship };
         }
 
-        public bool UpdateRelationshipType(int id, RelationshipTypeDTO relationshipType)
+        public bool UpdateRelationshipType(int id, RelationshipTypeDTO relationshipTypeDTO)
         {
-            throw new NotImplementedException();
+            var relationshipType = _database
+                .Get<RelationshipType>()
+                .SingleOrDefault(x => x.Id == id);
+            if (relationshipType != null)
+            {
+                relationshipType.Id = relationshipTypeDTO.Id;
+                relationshipType.Relationship = relationshipTypeDTO.Relationship;
+
+                _database.SaveChanges();
+                return true;
+            }
+            return false;
         }
 
-        public bool CreateRelationshipType(RelationshipTypeDTO relationshipType)
+        public bool CreateRelationshipType(RelationshipTypeDTO relationshipTypeDTO)
         {
-            throw new NotImplementedException();
+            var relationshipType = new RelationshipType
+            {
+                Relationship = relationshipTypeDTO.Relationship
+            };
+            _database.Add(relationshipType);
+            _database.SaveChanges();
+            return true;
         }
 
         public bool DeleteRelationshipType(int id)
         {
-            throw new NotImplementedException();
+            var relationshipType = _database
+                .Get<RelationshipType>()
+                .SingleOrDefault(x => x.Id == id);
+            if (relationshipType != null)
+            {
+                _database.Delete(relationshipType);
+                _database.SaveChanges();
+                return true;
+            }
+            return false;
         }
     }
 }
