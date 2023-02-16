@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Childcare.Dal.Contexts;
 
-public class ChildcareContext : BaseContext, IDatabase
+public class ChildcareContext : BaseContext, IChildcareDatabase
 {
     public ChildcareContext(DbContextOptions option) : base(option)
     {

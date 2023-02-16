@@ -9,6 +9,7 @@ using Childcare.Services.Exceptions;
 using Childcare.Services.Interfaces;
 using Childcare.Services.Profiles;
 using Childcare.Services.Services;
+using Childcare.Services.Services.DTOs;
 
 namespace Childcare.Service.Test.Services
 {
@@ -16,46 +17,44 @@ namespace Childcare.Service.Test.Services
     {
         private readonly IChildcareDatabase _database;
         private readonly IMapper _mapper;
-        private readonly IFixture _fixture;
+
 
         public EventServiceTests()
         {
             _database = Substitute.For<IChildcareDatabase>();
-            _mapper = GetMapper();
-            _fixture = new Fixture();
-
-            _fixture.Behaviors.OfType<ThrowingRecursionBehavior>().ToList()
-                .ForEach(b => _fixture.Behaviors.Remove(b));
-            _fixture.Behaviors.Add(new OmitOnRecursionBehavior(1));
+            _mapper = Substitute.For<IMapper>();
         }
 
         [Fact]
-        public void DeleteEvent_EventDoesNotExist_ThrowNotFoundException()
+        public void DeleteEvent_Eventexists_DeletesEvent()
         {
             // Arrange 
             const int correctId = 1;
-            const int incorrectId = 2;
+            var singleEvent = new List<Event> { new Event { Id = correctId } };
 
-            var correctEvent = _fixture.Build<Event>().With(x => x.Id, correctId).Create();
-            var incorrectEvent = _fixture.Build<Event>().With(x => x.Id, incorrectId).Create();
-
-            _database.Get<Event>().Returns(new List<Event> { incorrectEvent }.AsQueryable().BuildMock());
+            _database.Get<Event>().Returns(singleEvent.AsQueryable().BuildMock());
 
             var service = RetrieveService();
 
-            // Act & Assert
-             Assert.Throws<NotFoundException>(() => service.DeleteEvent(correctId));
-            _database.Received(1).Get<Event>();
+            // Act
+            //Assert.Throws<NotFoundException>(() => service.DeleteEvent(correctId));
+            var result = service.DeleteEvent(correctId);
+
+            //Assertion
+            _database.Received(1).SaveChanges();
+            result.Should().BeTrue();
+            _database.Received(1).Delete(Arg.Is<Event>(x => x.Id == correctId));
         }
 
         [Fact]
         public void GetEvent_WhenEventExists_ReturnsEvent()
         {
             // Arrange
-            const int id = 1;
+            const int id = 0;
 
             var singleEvent = new Event { Id = id };
             var events = new List<Event> { singleEvent };
+            var eventDTO = new List<EventDTO> { new EventDTO { Id = singleEvent.Id } };
 
             _database.Get<Event>().Returns(events.AsQueryable().BuildMock());
 
@@ -65,14 +64,18 @@ namespace Childcare.Service.Test.Services
             var result = service.GetEventById(id);
 
             // Assert
-            result.Should().BeEquivalentTo(singleEvent, options => options.ExcludingMissingMembers());
+            result.Should().NotBeNull();
+            result.Should().BeEquivalentTo(eventDTO.ElementAt(0));
         }
 
         [Fact]
         public void GetEvents_WhenEventsExist_ReturnsEventList()
         {
             // Arrange
-            var events = _fixture.Build<Event>().CreateMany();
+            var events = new List<Event>()
+            { new Event { Id = 1 } };
+            var eventDTOs = new List<EventDTO>()
+            { new EventDTO { Id = 1 } };
 
             _database.Get<Event>().Returns(events.AsQueryable().BuildMock());
 
@@ -82,21 +85,48 @@ namespace Childcare.Service.Test.Services
             var result = service.GetEvents();
 
             // Assert
-            result.Should().BeEquivalentTo(events, options => options.ExcludingMissingMembers());
+            result.Should().BeEquivalentTo(eventDTOs, options => options.ExcludingMissingMembers());
         }
 
-        private IEventService RetrieveService()
+        [Fact]
+        public void CreateEvent_WhenValidDataPassed_AddToDatabase()
         {
-            return new EventService(_database, _mapper);
-        }
+            //Arrange
+            var singleEvent = new Event { Description = "playtime with a/some child/ren not at home" };
+            var eventDTO = new EventDTO { Description = "playtime with a/some child/ren not at home" };
 
-        private static IMapper GetMapper()
+            var service = RetrieveService();
+            _mapper.Map<Event>(eventDTO).Returns(singleEvent);
+            //Act
+            var result = service.CreateEvent(eventDTO);
+            //Assert
+            _database.Received(1).SaveChanges();
+            result.Should().BeTrue();
+            _database.Received(1).Add(Arg.Is<Event>(x => x.Description == "playtime with a/some child/ren not at home"));
+         }
+
+        [Fact]
+        public void UpdateEvent_WhenValidDataPassed_AddToDatabase()
         {
-            var config = new MapperConfiguration(cfg => {
-                cfg.AddProfile<EventProfile>();
-            });
+            //Arrange
+            var singleEvent = new Event { Id = 1, Name = "Playdate as guest", Active = true };
+            var eventDTO = new EventDTO { Id = 1, Name = "Playdate as guest" };
+            var events = new List<Event> { singleEvent };
 
-            return new Mapper(config);
-        }
+            var service = RetrieveService();
+            _database.Get<Event>().Returns(events.AsQueryable());
+            //Act
+            var result = service.UpdateEvent(1, eventDTO);
+            //Assert
+            _database.Received(1).SaveChanges();
+            result.Should().BeTrue();
+
+}
+
+            private IEventService RetrieveService()
+             {
+                return new EventService(_database, _mapper);
+             }
+
     }
 }

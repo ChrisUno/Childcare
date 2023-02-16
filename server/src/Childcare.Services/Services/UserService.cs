@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using Childcare.Dal.Interfaces;
 using Childcare.Dal.Models;
+using Childcare.Services.Exceptions;
 using Childcare.Services.Interfaces;
 using Childcare.Services.Services.DTOs;
 
@@ -30,13 +32,19 @@ namespace Childcare.Services.Services
 
         public UserDTO GetUserById(int id)
         {
-            var user = _database.Get<User>().SingleOrDefault(x=>x.Id==id);
+            var user = _database
+                .Get<User>()
+                .SingleOrDefault(x=>x.Id==id);
             return new UserDTO {Id = user.Id, FirstName = user.FirstName,LastName = user.LastName,Email = user.Email };
         }
 
         public bool CreateUser(UserDTO userDTO)
         {
-            var user= new User{Id= userDTO.Id, FirstName = userDTO.FirstName,LastName = userDTO.LastName,Email = userDTO.Email};
+            var user = _mapper.Map<User>(userDTO);
+            user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
+
+            //var newUser= new User{Id= userDTO.Id, FirstName = userDTO.FirstName,LastName = userDTO.LastName,Email = userDTO.Email};
+            //_database.Add(newUser);
             _database.Add(user);
             _database.SaveChanges();
             return true;
@@ -44,20 +52,32 @@ namespace Childcare.Services.Services
         
         public bool DeleteUser(int id)
         {
-            var user = _database.Get<User>().SingleOrDefault(x => x.Id == id);
-            user.Active = false;
-            _database.SaveChanges();
-            return true;
+            var user = _database
+                .Get<User>()
+                .SingleOrDefault(x => x.Id == id);
+            if (user != null)
+            {
+                _database.Delete(user);
+                _database.SaveChanges();   
+                return true;
+            }
+            return false;
         }
 
         public bool UpdateUser(int id, UserDTO user)
         {
             
-            var existingUser = _database.Get<User>()
+            var existingUser = _database
+                .Get<User>()
                 .Where(x => x.Active == true)
                 .SingleOrDefault(x => x.Id == id);
 
-            if (existingUser == null) return false;
+            if (existingUser == null) throw new NotFoundException("Account Not Found");
+
+            if (user.Password is not null)
+            {
+                user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
+            }
 
             existingUser.FirstName = user.FirstName;
             existingUser.LastName = user.LastName;

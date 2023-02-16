@@ -9,6 +9,6 @@ namespace Childcare.Services.Services.DTOs
         public string Password { get; set; }
         public int FamilyId { get; set; }
         public int Active { get; set; }
-        public int AddressId { get; set; }  
+        public int AddressId { get; set; }
     }
 }

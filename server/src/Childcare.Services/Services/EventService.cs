@@ -31,13 +31,15 @@ namespace Childcare.Services.Services
 
         public EventDTO GetEventById(int id)
         {
-            var eventRetrieved = _database.Get<Event>().SingleOrDefault(x=>x.Id==id);
+            var eventRetrieved = _database
+                .Get<Event>()
+                .SingleOrDefault(x=>x.Id==id);
             return new EventDTO { };
         }
 
         public bool CreateEvent(EventDTO eventDTO)
         {
-            var eventToCreate = new Event { };
+            var eventToCreate = new Event {Name = eventDTO.Name, Description = eventDTO.Description, Timeslot = eventDTO.TimeSlot  };
             _database.Add(eventToCreate);
             _database.SaveChanges();
             return true;
@@ -45,23 +47,39 @@ namespace Childcare.Services.Services
 
         public bool DeleteEvent(int id)
         {
-            var eventDeleted = _database.Get<Event>().SingleOrDefault(x => x.Id == id);
-            eventDeleted.Active = false;
-            _database.SaveChanges();
-            return true;
-        }
-
-        public bool UpdateEvent(int id)
-        {
-            var user = _database.Get<Event>()
-                .Where(x => x.Active == true)
+            var eventDeleted = _database
+                .Get<Event>()
                 .SingleOrDefault(x => x.Id == id);
-            return true;
+            if (eventDeleted != null)
+            {
+                _database.Delete(eventDeleted);
+                _database.SaveChanges(); 
+                return true;
+            }
+            //eventDeleted.Active = false;
+            //_database.SaveChanges();
+            return false;
         }
 
         public bool UpdateEvent(int id, EventDTO eventDto)
         {
-            throw new NotImplementedException();
+            var singleEvent = _database
+                .Get<Event>()
+                .Where(x => x.Active == true)
+                .SingleOrDefault(x => x.Id == id);
+            if (singleEvent != null) 
+            {
+                singleEvent.Name= eventDto.Name;
+                singleEvent.Description= eventDto.Description;
+                _database.SaveChanges();
+                return true;
+            }
+            return false;
         }
+
+        //public bool UpdateEvent(int id, EventDTO eventDto)
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
 }

@@ -1,8 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Metrics;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System .Threading.Tasks;
+using System.Xml.Linq;
 using AutoMapper;
 using Childcare.Dal.Interfaces;
 using Childcare.Dal.Models;
@@ -15,10 +18,12 @@ namespace Childcare.Services.Services
     public class AddressService : IAddressService
     {
         private readonly IChildcareDatabase _database;
+        private readonly IMapper _mapper;
         
         public AddressService(IChildcareDatabase database, IMapper mapper)
         {
             _database = database;
+            _mapper = mapper;
         } 
 
         public IList<AddressDTO> GetAddresses()
@@ -33,14 +38,52 @@ namespace Childcare.Services.Services
             return new AddressDTO {Id = address.Id, Name = address.Name };
         }
 
-        public bool UpdateAddress(int id, AddressDTO address)
+        public bool UpdateAddress(int id, AddressDTO addressDTO)
         {
-            throw new NotImplementedException();
+            var address = _database.Get<Address>()
+                .SingleOrDefault(x => x.Id == id);
+            if (address != null)
+            {
+                address.Name = addressDTO.Name;
+                address.AddressLine1 = addressDTO.AddressLine1;
+                address.AddressLine2 = addressDTO.AddressLine2;
+                address.Country = addressDTO.Country;
+                address.Zipcode = addressDTO.Zipcode;
+                address.Region = addressDTO.Region;
+                _database.SaveChanges();
+                return true;
+            }
+            return false;
         }
 
         public bool DeleteAddress(int id)
         {
-            throw new NotImplementedException();
+            var address = _database
+                .Get<Address>()
+                .SingleOrDefault(x => x.Id == id);
+            if (address != null)
+            {
+                _database.Delete(address);
+                _database.SaveChanges();
+                return true;
+            }
+            return false;
+
+        }
+        public bool CreateAddress(AddressDTO addressDTO)
+        {
+            var address = new Address
+            {
+                Name = addressDTO.Name,
+                AddressLine1 = addressDTO.AddressLine1,
+                AddressLine2 = addressDTO.AddressLine2,
+                Country = addressDTO.Country,
+                Zipcode = addressDTO.Zipcode,
+                Region = addressDTO.Region
+            };
+            _database.Add(address);
+            _database.SaveChanges();
+            return true;
         }
     }
 }

@@ -21,19 +21,19 @@ public class User
     
     [Column("password")]
     public string Password { get; set; }
-    
+
     [Column("family_id")]
     public int FamilyId { get; set; }
-    
+
     [ForeignKey(nameof(FamilyId))]
     public Family Family { get; set; }
-    
+
     [Column("address_id")]
     public int AddressId { get; set; }
-    
-    [ForeignKey(nameof(AddressId))] 
+
+    [ForeignKey(nameof(AddressId))]
     public virtual Address Address { get; set; }
-    
+
     [Column("active")]
     public bool Active { get; set; }
     

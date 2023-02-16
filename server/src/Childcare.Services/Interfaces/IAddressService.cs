@@ -10,5 +10,7 @@ namespace Childcare.Services.Interfaces
 
         bool DeleteAddress(int id); 
 
+        bool CreateAddress (AddressDTO address);
+
     }
 }

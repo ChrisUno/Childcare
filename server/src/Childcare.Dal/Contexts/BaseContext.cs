@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace Childcare.Dal.Contexts;
 
@@ -64,5 +65,7 @@ public abstract class BaseContext : DbContext
         {
             optionsBuilder.UseNpgsql(_connectionString);
         }
+        optionsBuilder.LogTo(Console.WriteLine);
+        
     }
 }

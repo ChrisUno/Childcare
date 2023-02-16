@@ -8,34 +8,34 @@ namespace Childcare.API.Authentication
 {
     public class AuthorizedAccountProvider : IAuthorizedAccountProvider
     {
-        private UserDTO? _family;
-        private readonly IUserService _familyService;
+        private UserDTO? _user;
+        private readonly IUserService _userService;
         private readonly IHttpContextAccessor _contextAccessor;
 
-        public AuthorizedAccountProvider(IUserService familyService, IHttpContextAccessor contextAccessor)
+        public AuthorizedAccountProvider(IUserService userService, IHttpContextAccessor contextAccessor)
         {
-            _familyService = familyService;
+            _userService = userService;
             _contextAccessor = contextAccessor;
         }
 
-        public async Task<UserDTO> GetLoggedInAccount()
+        public UserDTO GetLoggedInAccount()
         {
-            if (_family is not null)
-                return _family;
+            if (_user is not null)
+                return _user;
 
             var identifier = _contextAccessor.HttpContext?.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             if (string.IsNullOrWhiteSpace(identifier))
                 return null;
 
-            _family = _familyService.GetUserById(int.Parse(identifier));
+            _user = _userService.GetUserById(int.Parse(identifier));
 
-            return _family;
+            return _user;
         }
     }
 
     public interface IAuthorizedAccountProvider
     {
-        Task<UserDTO> GetLoggedInAccount();
+        UserDTO GetLoggedInAccount();
     }
 }

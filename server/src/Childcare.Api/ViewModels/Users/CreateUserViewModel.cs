@@ -11,11 +11,11 @@ public class CreateUserViewModel
     
     public string Email { get; set; }
     
-    public SecureString Password { get; set; }
+    public string Password { get; set; }
     
-    public FamilyViewModel Name { get; set; }
+    //public FamilyViewModel Name { get; set; }
 
-    public AddressViewModel Address { get; set; }
+    //public AddressViewModel Address { get; set; }
     
 }
 
