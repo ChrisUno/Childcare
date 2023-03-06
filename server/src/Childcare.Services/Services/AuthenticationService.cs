@@ -25,11 +25,11 @@ namespace Childcare.Services.Services
 
         public UserDTO? Authenticate(string email, string password)
         {
-            var family = _database.Get<User>().Where(new UserByEmailSpec(email)).SingleOrDefault();
+            var user = _database.Get<User>().Where(new UserByEmailSpec(email)).SingleOrDefault();
 
-            if (family is null || !BC.Verify(password, family.Password))
+            if (user is null || !BC.Verify(password, user.Password))
                 return null;
-            return _mapper.Map<UserDTO>(family);
+            return _mapper.Map<UserDTO>(user);
         }
 
 

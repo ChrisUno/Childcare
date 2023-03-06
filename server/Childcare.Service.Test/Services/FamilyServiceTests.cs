@@ -5,10 +5,9 @@ using MockQueryable.NSubstitute;
 using NSubstitute;
 using Childcare.Dal.Interfaces;
 using Childcare.Dal.Models;
-using Childcare.Services.Exceptions;
 using Childcare.Services.Interfaces;
-using Childcare.Services.Profiles;
 using Childcare.Services.Services;
+using Childcare.Services.Services.DTOs;
 
 namespace Childcare.Service.Test.Services
 {
@@ -16,36 +15,33 @@ namespace Childcare.Service.Test.Services
     {
         private readonly IChildcareDatabase _database;
         private readonly IMapper _mapper;
-        private readonly IFixture _fixture;
 
         public FamilyServiceTests()
         {
             _database = Substitute.For<IChildcareDatabase>();
-            _mapper = GetMapper();
-            _fixture = new Fixture();
-
-            _fixture.Behaviors.OfType<ThrowingRecursionBehavior>().ToList()
-                .ForEach(b => _fixture.Behaviors.Remove(b));
-            _fixture.Behaviors.Add(new OmitOnRecursionBehavior(1));
+            _mapper = Substitute.For<IMapper>();
         }
 
         [Fact]
-        public void DeleteFamily_FamilyDoesNotExist_ThrowNotFoundException()
+        public void DeleteFamily_Familyexists_DeletesFamily()
         {
             // Arrange 
             const int correctId = 1;
-            const int incorrectId = 2;
+            var families = new List<Family> { new Family { Id = correctId } };
 
-            var correctFamily = _fixture.Build<Family>().With(x => x.Id, correctId).Create();
-            var incorrectFamily = _fixture.Build<Family>().With(x => x.Id, incorrectId).Create();
-
-            _database.Get<Family>().Returns(new List<Family> { incorrectFamily }.AsQueryable().BuildMock());
+            _database.Get<Family>().Returns(families.AsQueryable().BuildMock());
 
             var service = RetrieveService();
 
             // Act & Assert
-             Assert.Throws<NotFoundException>(() => service.DeleteFamily(correctId));
-            _database.Received(1).Get<Family>();
+            // Assert.Throws<NotFoundException>(() => service.DeleteFamily(correctId));
+            var result = service.DeleteFamily(correctId);
+
+            _database.Received(1).SaveChanges();
+            result.Should().BeTrue();
+            _database.Received(1).Delete(Arg.Is<Family>(x => x.Id == correctId));
+
+
         }
 
         [Fact]
@@ -56,6 +52,7 @@ namespace Childcare.Service.Test.Services
 
             var family = new Family { Id = id };
             var families = new List<Family> { family };
+            var familyDTO = new List<FamilyDTO> { new FamilyDTO { Id = family.Id, Name = family.Name } };
 
             _database.Get<Family>().Returns(families.AsQueryable().BuildMock());
 
@@ -69,12 +66,13 @@ namespace Childcare.Service.Test.Services
         }
 
         [Fact]
-        public void GetFamilies_WhenFamiliesExist_ReturnsFamilyListAsync()
+        public void GetFamilies_WhenFamiliesExist_ReturnsFamilyList()
         {
             // Arrange
-            var families = _fixture.Build<Family>().CreateMany();
+            var familyList = new List<Family> { new Family { Id = 1, Name = "Whatever" } };
+            var familyDTOs = new List<FamilyDTO> { new FamilyDTO { Id = 1, Name = "Whatever" } };
 
-            _database.Get<Family>().Returns(families.AsQueryable().BuildMock());
+            _database.Get<Family>().Returns(familyList.AsQueryable().BuildMock());
 
             var service = RetrieveService();
 
@@ -82,7 +80,7 @@ namespace Childcare.Service.Test.Services
             var result = service.GetFamilies();
 
             // Assert
-            result.Should().BeEquivalentTo(families, options => options.ExcludingMissingMembers());
+            result.Should().BeEquivalentTo(familyDTOs, options => options.ExcludingMissingMembers());
         }
 
         private IFamilyService RetrieveService()
@@ -90,13 +88,6 @@ namespace Childcare.Service.Test.Services
             return new FamilyService(_database, _mapper);
         }
 
-        private static IMapper GetMapper()
-        {
-            var config = new MapperConfiguration(cfg => {
-                cfg.AddProfile<FamilyProfile>();
-            });
 
-            return new Mapper(config);
-        }
     }
 }

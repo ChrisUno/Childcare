@@ -27,13 +27,7 @@ public class Address
     
     [Column("zipcode")]
     public string Zipcode { get; set; }
-    
-    [Column("user_id")]
-    public int UserId { get; set; }
-    
-    [ForeignKey(nameof(UserId))] 
-    public virtual User User { get; set; }
-    
+
     public virtual ICollection<Event> Events { get; set; }
     public virtual ICollection<User> Users { get; set; }
 }

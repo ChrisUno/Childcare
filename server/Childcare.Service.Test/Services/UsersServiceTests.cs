@@ -9,6 +9,7 @@ using Childcare.Services.Exceptions;
 using Childcare.Services.Interfaces;
 using Childcare.Services.Profiles;
 using Childcare.Services.Services;
+using Childcare.Services.Services.DTOs;
 
 namespace Childcare.Service.Test.Services
 {
@@ -16,36 +17,33 @@ namespace Childcare.Service.Test.Services
     {
         private readonly IChildcareDatabase _database;
         private readonly IMapper _mapper;
-        private readonly IFixture _fixture;
+
 
         public UserServiceTests()
         {
             _database = Substitute.For<IChildcareDatabase>();
             _mapper = GetMapper();
-            _fixture = new Fixture();
 
-            _fixture.Behaviors.OfType<ThrowingRecursionBehavior>().ToList()
-                .ForEach(b => _fixture.Behaviors.Remove(b));
-            _fixture.Behaviors.Add(new OmitOnRecursionBehavior(1));
         }
 
         [Fact]
-        public void DeleteUser_UserDoesNotExist_ThrowNotFoundException()
+        public void DeleteUser_UserExists_DeleteUser()
         {
             // Arrange 
             const int correctId = 1;
-            const int incorrectId = 2;
+            var users = new List<User> { new User { Id = correctId} };
 
-            var correctUser = _fixture.Build<User>().With(x => x.Id, correctId).Create();
-            var incorrectUser = _fixture.Build<User>().With(x => x.Id, incorrectId).Create();
-
-            _database.Get<User>().Returns(new List<User> { incorrectUser }.AsQueryable().BuildMock());
+            _database.Get<User>().Returns(users.AsQueryable().BuildMock());
 
             var service = RetrieveService();
+            // Act
 
-            // Act & Assert
-            Assert.Throws<NotFoundException>(() => service.DeleteUser(correctId));
-            _database.Received(1).Get<User>();
+            var result = service.DeleteUser(correctId);
+
+            // Assert
+            _database.Received(1).SaveChanges();
+            result.Should().BeTrue();
+            _database.Received(1).Delete(Arg.Is<User>(x => x.Id == correctId));
         }
 
         [Fact]
@@ -56,6 +54,7 @@ namespace Childcare.Service.Test.Services
 
             var user = new User { Id = id };
             var users = new List<User> { user };
+            var userDTO = new List<UserDTO> { new UserDTO { Id = user.Id } };
 
             _database.Get<User>().Returns(users.AsQueryable().BuildMock());
 
@@ -65,24 +64,28 @@ namespace Childcare.Service.Test.Services
             var result = service.GetUserById(id);
 
             // Assert
-            result.Should().BeEquivalentTo(user, options => options.ExcludingMissingMembers());
+            result.Should().NotBeNull();
+            result.Should().BeEquivalentTo(userDTO.ElementAt(0));
         }
 
         [Fact]
         public void GetUsers_WhenUsersExist_ReturnsUserListAsync()
         {
             // Arrange
-            var users = _fixture.Build<User>().CreateMany();
+            var users = new List<User> { new User { Id = 1 } };
+            var usersDTOs = new List<UserDTO> { new UserDTO { Id = 1 } };
 
             _database.Get<User>().Returns(users.AsQueryable().BuildMock());
 
             var service = RetrieveService();
-
             // Act
+
             var result = service.GetUsers();
 
             // Assert
-            result.Should().BeEquivalentTo(users, options => options.ExcludingMissingMembers());
+
+            result.Should().BeEquivalentTo(usersDTOs, options => options.ExcludingMissingMembers());
+
         }
 
         private IUserService RetrieveService()

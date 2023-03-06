@@ -7,8 +7,8 @@ namespace Childcare.Services.Services.DTOs
         public string AddressLine1 { get; set; }
         public string AddressLine2 { get; set; }
         public string Region { get; set; }
-        public int Country { get; set; }
-        public int Zipcode { get; set; }
+        public string Country { get; set; }
+        public string Zipcode { get; set; }
         public int UserId { get; set; }    
     }
 }

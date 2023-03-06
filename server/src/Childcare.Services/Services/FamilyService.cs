@@ -44,10 +44,17 @@ namespace Childcare.Services.Services
 
         public bool DeleteFamily(int id)
         {
-            var family = _database.Get<Family>().SingleOrDefault(x => x.Id == id);
-            family.Active = false;
-            _database.SaveChanges();
-            return true;
+            var family = _database
+                .Get<Family>()
+                .SingleOrDefault(x => x.Id == id);
+            //family.Active = false;
+            if (family != null)
+            {
+                _database.Delete(family);
+                _database.SaveChanges();
+                return true;
+            }
+            return false;
         }
 
         public bool UpdateFamily(int id, FamilyDTO family)

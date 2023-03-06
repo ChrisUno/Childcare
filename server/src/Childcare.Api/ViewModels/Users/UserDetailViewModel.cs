@@ -10,8 +10,8 @@ public class UserDetailViewModel
     
     public string Active { get; set; }
 
-    public FamilyViewModel Family { get; set; }
-    public AddressViewModel Address { get; set; }
+    //public FamilyViewModel Family { get; set; }
+    //public AddressViewModel Address { get; set; }
     public List<RelationshipTypeViewModel> Relationship { get; set; }
 
 }

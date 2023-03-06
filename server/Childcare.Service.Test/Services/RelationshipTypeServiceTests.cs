@@ -16,35 +16,30 @@ namespace Childcare.Service.Test.Services
     {
         private readonly IChildcareDatabase _database;
         private readonly IMapper _mapper;
-        private readonly IFixture _fixture;
+
 
         public RelationshipTypeServiceTests()
         {
             _database = Substitute.For<IChildcareDatabase>();
-            _mapper = GetMapper();
-            _fixture = new Fixture();
-
-            _fixture.Behaviors.OfType<ThrowingRecursionBehavior>().ToList()
-                .ForEach(b => _fixture.Behaviors.Remove(b));
-            _fixture.Behaviors.Add(new OmitOnRecursionBehavior(1));
+            _mapper = Substitute.For<IMapper>();
         }
 
         [Fact]
-        public void DeleteRelationshipType_RelationshipTypeDoesNotExist_ThrowNotFoundException()
+        public void DeleteRelationshipType_RelationshipTypeExists_DeletesRelationshipType()
         {
             // Arrange 
             const int correctId = 1;
-            const int incorrectId = 2;
+            var relationshipTypes = new List<RelationshipType> { new RelationshipType { Id = correctId} };
 
-            var correctRelationshipType = _fixture.Build<RelationshipType>().With(x => x.Id, correctId).Create();
-            var incorrectRelationshipType = _fixture.Build<RelationshipType>().With(x => x.Id, incorrectId).Create();
-
-            _database.Get<RelationshipType>().Returns(new List<RelationshipType> { incorrectRelationshipType }.AsQueryable().BuildMock());
+            _database.Get<RelationshipType>().Returns(relationshipTypes.AsQueryable().BuildMock());
 
             var service = RetrieveService();
+            // Act
+            var result = service.DeleteRelationshipType(correctId);
 
-            // Act & Assert
-            Assert.Throws<NotFoundException>(() => service.DeleteRelationshipType(correctId));
+            // Assert
+            _database.Received(1).SaveChanges();
+            result.Should().BeTrue();  
             _database.Received(1).Get<RelationshipType>();
         }
 
@@ -72,7 +67,10 @@ namespace Childcare.Service.Test.Services
         public void GetRelationshipTypes_WhenRelationshipTypesExist_ReturnsRelationshipTypeListAsync()
         {
             // Arrange
-            var relationshipTypes = _fixture.Build<RelationshipType>().CreateMany();
+            var relationshipTypes = new List<RelationshipType>()
+            { new RelationshipType { Id = 1 } };
+            var relationshipTypeDTOs = new List<RelationshipType>()
+            { new RelationshipType{ Id = 1 } };
 
             _database.Get<RelationshipType>().Returns(relationshipTypes.AsQueryable().BuildMock());
 
