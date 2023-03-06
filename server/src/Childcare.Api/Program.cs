@@ -13,16 +13,10 @@ using Microsoft.OpenApi.Models;
 using Childcare.Services.Interfaces;
 using Childcare.Services.Services;
 using IAuthenticationService = Childcare.Services.Interfaces.IAuthenticationService;
-using Childcare.Api.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllers(options =>
-{
-    options.Filters.Add<ExceptionFilter>();
-});
-builder.Services.AddHealthChecks();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddValidatorsFromAssemblyContaining<UpdateUserValidator>();
 builder.Services.AddFluentValidationAutoValidation();
@@ -42,7 +36,7 @@ builder.Services.AddScoped<IEventService, EventService>();
 builder.Services.AddScoped<IFamilyService,FamilyService>();
 builder.Services.AddScoped<IRelationshipTypeService, RelationshipTypeService>();
 builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddAutoMapper(config => config.AllowNullCollections = true, typeof(Program).Assembly, typeof(AddressService).Assembly);
+builder.Services.AddAutoMapper(config => config.AllowNullCollections = true, typeof(Program).Assembly, typeof(AcService).Assembly);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
