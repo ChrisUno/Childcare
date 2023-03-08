@@ -24,7 +24,9 @@ namespace Childcare.Services.Services
 
         public IList<FamilyDTO> GetFamilies()
         {
-            var families = _database.Get<Family>().ToList();
+            var families = _database
+                .Get<Family>()
+                .ToList();
             return families.Select(x=> new FamilyDTO
             { 
                 Id = x.Id,

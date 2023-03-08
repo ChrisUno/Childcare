@@ -29,7 +29,9 @@ namespace Childcare.Services.Services
 
         public IList<AddressDTO> GetAddresses()
         {
-            var addresses = _database.Get<Address>().ToList();
+            var addresses = _database
+                .Get<Address>()
+                .ToList();
             return addresses.Select(x=> new AddressDTO
             { 
                 Id = x.Id,

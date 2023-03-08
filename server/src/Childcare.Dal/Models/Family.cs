@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Childcare.Dal.Models;
 
-[Table("families")]
+[Table("family")]
 public class Family
 {
     [Key]
