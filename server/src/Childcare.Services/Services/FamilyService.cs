@@ -47,7 +47,7 @@ namespace Childcare.Services.Services
             var family = _database
                 .Get<Family>()
                 .SingleOrDefault(x => x.Id == id);
-            //family.Active = false;
+            family.Active = false;
             if (family != null)
             {
                 _database.Delete(family);

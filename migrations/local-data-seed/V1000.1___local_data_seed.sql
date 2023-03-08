@@ -1,4 +1,4 @@
-insert into family (name) values ('Crawford');
+insert into family (name, active) values ('Crawford',TRUE);
 -- insert into family (name) values ('Lavery');
 -- insert into family (name) values ('Childminder');
 -- insert into family (name) values ('N/A');
@@ -21,16 +21,16 @@ insert into addresses (name, address_line_1, address_line_2, region, country, zi
 
 insert into users (first_name, last_name, email, password, family_id, address_id, active) values ('Chris','Crawford','chriscrawford86@gmail.com', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiZW1haWwiOiJjaHJpc2NyYXdmb3JkODZAZ21haWwuY29tIiwicm9sZSI6IlVzZXIiLCJuYmYiOjE2NzgwOTcxODIsImV4cCI6MTY3ODEzMzE4MiwiaWF0IjoxNjc4MDk3MTgyfQ.VZlSKL1mcwHS9lgElIos3V7U0zR4UWlPQFq0Y0RY-I4',(select id from family where name='Crawford'),(select id from addresses where address_line_1='8 Rathmoyle Park West'),TRUE);
 -- insert into users (first_name, last_name, email, password, family_id, addresses_id) values ('Lauren','Lavery','laurenlavery06@gmail.com', 'potatoes',(select id from family where name='Lavery'),(select id from addresses where address_line_1='8 Rathmoyle Park West'));
-insert into users (first_name, last_name, email, password, /* family_id, address_id, */ active) values ('Marylyn','Crawford','marylyncrawford60@gmail.com', 'carrots',/* (select id from family where name='Crawford'),(select id from addresses where address_line_1='5 Bluefield way'), */TRUE);
+insert into users (first_name, last_name, email, password, family_id, address_id, active) values ('Marylyn','Crawford','marylyncrawford60@gmail.com', 'carrots',(select id from family where name='Crawford'),(select id from addresses where address_line_1='5 Bluefield way'),TRUE);
 -- insert into users (first_name, last_name, email, password, family_id, addresses_id) values ('Stella','Lavery','stellalavery50@gmail.com', 'mince',(select id from family where name='Lavery'),(select id from addresses where address_line_1='35 Chichester square'));
 -- insert into users (first_name, last_name, email, password, family_id, addresses_id) values ('Amy','McAteer','amymcateer40@gmail.com', 'swede',(select id from family where name='Childminder'),(select id from addresses where address_line_1='19 Loughview Village'));
 -- insert into users (first_name, last_name, email, password, family_id, addresses_id) values ('Laura','Hughes','lauracrawford30@gmail.com', 'onions',(select id from family where name='Crawford'),(select id from addresses where address_line_1='4 Windslow Drive'));
-insert into users (first_name, last_name, email, password, /* family_id, address_id, */active) values ('Luca','Crawford','lucacrawford20@gmail.com', 'herbs',/* (select id from family where name='Crawford'),(select id from addresses where address_line_1='8 Rathmoyle Park West'), */TRUE);
+insert into users (first_name, last_name, email, password, family_id, address_id, active) values ('Luca','Crawford','lucacrawford20@gmail.com', 'herbs',(select id from family where name='Crawford'),(select id from addresses where address_line_1='8 Rathmoyle Park West'),TRUE);
 -- insert into users (first_name, last_name, email, password, family_id, addresses_id) values ('Unknown','Crawford','unknowncrawford30@gmail.com', 'chilli',(select id from family where name='Crawford'),(select id from addresses where address_line_1='8 Rathmoyle Park West'));
 
 
-insert into events (name, description, time_slot, address_id) values ('Playdate as guest', 'playtime with a/some child/ren not at home', '2020-10-05 06:00:00-00', (select id from addresses where name='Crawford Residence'));
-insert into events (name, description, time_slot, address_id) values ('Playdate as host', 'playtime with a/some child/ren at home', '2020-10-07 08:00:00-00', (select id from addresses where name='Crawford-Lavery Residence'));
+insert into events (name, description, time_slot, address_id, active) values ('Playdate as guest', 'playtime with a/some child/ren not at home', '2020-10-05 06:00:00-00', (select id from addresses where name='Crawford Residence'), TRUE);
+insert into events (name, description, time_slot, address_id, active) values ('Playdate as host', 'playtime with a/some child/ren at home', '2020-10-07 08:00:00-00', (select id from addresses where name='Crawford-Lavery Residence'), TRUE);
 -- insert into events (name, description, time_slot, addresses_id) values ('Park visit', 'playtime at an outdoor park', '2020-10-09 10:00:00-00', (select id from addresses where address_line_1='Marine Gardens'));
 -- insert into events (name, description, time_slot, addresses_id) values ('Birthday Party', 'attend a birthday party', '2020-10-11 12:00:00-00', (select id from addresses where address_line_1='Airtastic'));
 -- insert into events (name, description, time_slot, addresses_id) values ('Restaurant', 'eatting a meal at a restaurant', '2020-10-13 14:00:00-00', (select id from addresses where address_line_1='Ownies'));
