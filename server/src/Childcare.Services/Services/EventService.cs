@@ -26,7 +26,7 @@ namespace Childcare.Services.Services
         public IList<EventDTO> GetEvents()
         {
             var events = _database.Get<Event>().ToList();
-            return events.Select(x=> new EventDTO{ Id = x.Id, Name = x.Name}).ToList();
+            return events.Select(x=> new EventDTO{ Id = x.Id, Name = x.Name, Description = x.Description}).ToList();
         }
 
         public EventDTO GetEventById(int id)

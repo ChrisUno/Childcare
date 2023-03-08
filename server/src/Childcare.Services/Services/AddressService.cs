@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.Metrics;
 using System.Linq;
+using System.Net;
 using System.Reflection.Emit;
 using System.Text;
 using System .Threading.Tasks;
@@ -29,15 +30,31 @@ namespace Childcare.Services.Services
         public IList<AddressDTO> GetAddresses()
         {
             var addresses = _database.Get<Address>().ToList();
-            return addresses.Select(x=> new AddressDTO{ Id = x.Id, Name = x.Name}).ToList();
+            return addresses.Select(x=> new AddressDTO
+            { 
+                Id = x.Id,
+                Name = x.Name,
+                AddressLine1 = x.AddressLine1,
+                AddressLine2 = x.AddressLine2,
+                Country = x.Country,
+                Region = x.Region,
+                Zipcode = x.Zipcode
+            }).ToList();
         }
-
         public AddressDTO GetAddressById(int id)
         {
             var address = _database.Get<Address>().SingleOrDefault(x=>x.Id==id);
-            return new AddressDTO {Id = address.Id, Name = address.Name };
+            return new AddressDTO 
+            {
+                Id = address.Id,
+                Name = address.Name,
+                AddressLine1 = address.AddressLine1,
+                AddressLine2 = address.AddressLine2,
+                Country = address.Country,
+                Region = address.Region,
+                Zipcode = address.Zipcode
+            };
         }
-
         public bool UpdateAddress(int id, AddressDTO addressDTO)
         {
             var address = _database.Get<Address>()
