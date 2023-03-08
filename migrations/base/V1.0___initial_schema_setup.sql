@@ -77,6 +77,7 @@ CREATE TABLE public.events (
 	name varchar(255) NOT NULL,
 	description varchar(255) NOT NULL,
 	time_slot TIMESTAMP NOT NULL,
+	active boolean NOT NULL,
 	address_id INT NOT NULL constraint events_addresses_address_id_fk REFERENCES public.addresses,
 	CONSTRAINT events_pkey PRIMARY KEY (id)
 );
