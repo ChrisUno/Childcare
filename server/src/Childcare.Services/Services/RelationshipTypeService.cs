@@ -26,7 +26,11 @@ namespace Childcare.Services.Services
         public IList<RelationshipTypeDTO> GetRelationshipTypes()
         {
             var relationshipTypes = _database.Get<RelationshipType>().ToList();
-            return relationshipTypes.Select(x => new RelationshipTypeDTO { Id = x.Id, Relationship = x.Relationship }).ToList();
+            return relationshipTypes.Select(x => new RelationshipTypeDTO 
+            {
+                Id = x.Id,
+                Relationship = x.Relationship 
+            }).ToList();
         }
 
         public RelationshipTypeDTO GetRelationshipTypeById(int id)
@@ -34,7 +38,11 @@ namespace Childcare.Services.Services
             var relationshipType = _database
                 .Get<RelationshipType>()
                 .SingleOrDefault(x => x.Id == id);
-            return new RelationshipTypeDTO { Id = relationshipType.Id, Relationship = relationshipType.Relationship };
+            return new RelationshipTypeDTO 
+            {
+                Id = relationshipType.Id,
+                Relationship = relationshipType.Relationship 
+            };
         }
 
         public bool UpdateRelationshipType(int id, RelationshipTypeDTO relationshipTypeDTO)

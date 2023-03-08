@@ -25,18 +25,32 @@ namespace Childcare.Services.Services
         public IList<FamilyDTO> GetFamilies()
         {
             var families = _database.Get<Family>().ToList();
-            return families.Select(x=> new FamilyDTO{ Id = x.Id, Name = x.Name}).ToList();
+            return families.Select(x=> new FamilyDTO
+            { 
+                Id = x.Id,
+                Name = x.Name
+            }).ToList();
         }
 
         public FamilyDTO GetFamilyById(int id)
         {
-            var family = _database.Get<Family>().SingleOrDefault(x =>x.Id==id);
-            return new FamilyDTO {Id = family.Id, Name = family.Name };
+            var family = _database
+                .Get<Family>()
+                .SingleOrDefault(x =>x.Id==id);
+            return new FamilyDTO 
+            {
+                Id = family.Id,
+                Name = family.Name 
+            };
         }
 
         public bool CreateFamily(FamilyDTO familyDTO)
         {
-            var family = new Family { Id = familyDTO.Id, Name = familyDTO.Name };
+            var family = new Family
+            {
+                Id = familyDTO.Id,
+                Name = familyDTO.Name
+            };
             _database.Add(family);
             _database.SaveChanges();
             return true;

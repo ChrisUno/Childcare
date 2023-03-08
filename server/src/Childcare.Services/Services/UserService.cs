@@ -26,8 +26,16 @@ namespace Childcare.Services.Services
 
         public IList<UserDTO> GetUsers()
         {
-            var users = _database.Get<User>().ToList();
-            return users.Select(x=> new UserDTO{ Id = x.Id, FirstName = x.FirstName}).ToList();
+            var users = _database
+                .Get<User>()
+                .ToList();
+            return users.Select(x=> new UserDTO
+            {
+                Id = x.Id,
+                FirstName = x.FirstName,
+                LastName = x.LastName,
+                Email = x.Email
+            }).ToList();
         }
 
         public UserDTO GetUserById(int id)
@@ -35,7 +43,13 @@ namespace Childcare.Services.Services
             var user = _database
                 .Get<User>()
                 .SingleOrDefault(x=>x.Id==id);
-            return new UserDTO {Id = user.Id, FirstName = user.FirstName,LastName = user.LastName,Email = user.Email };
+            return new UserDTO 
+            {
+                Id = user.Id,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email
+            };
         }
 
         public bool CreateUser(UserDTO userDTO)
