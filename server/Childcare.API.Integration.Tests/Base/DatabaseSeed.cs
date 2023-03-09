@@ -10,7 +10,7 @@ namespace Childcare.API.Integration.Test.Base
 {
     public static class DatabaseSeed
     {
-        public static void SeedDatabase(ChildcareContext database, DateTime dateTime)
+        public static void SeedDatabase(ChildcareContext database)
         {
             var address = new Address
             {
@@ -29,7 +29,7 @@ namespace Childcare.API.Integration.Test.Base
                 Id = 1,
                 Name = "Name Test",
                 Description = "Description test",
-                Timeslot = dateTime,
+                Timeslot = DateTime.Now,
                 AddressId = 1
             };
 

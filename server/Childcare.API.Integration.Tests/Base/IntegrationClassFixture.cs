@@ -29,7 +29,8 @@ namespace Childcare.Api.Integration.Test.Base
                         e.AddTransient<IChildcareDatabase, ChildcareContext>();
                     });
                 });
-           
+
+            DatabaseSeed.SeedDatabase(Host.Services.GetService<ChildcareContext>());
         }
 
         public void Dispose()

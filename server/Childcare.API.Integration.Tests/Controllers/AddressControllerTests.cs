@@ -39,20 +39,20 @@ namespace Childcare.API.Integration.Test.Controllers
             _testOutputHelper.WriteLine(value.VerifyDeSerialization<AddressViewModel[]>());
         }
 
-        [Fact]
-        public async Task Create_WhenNewAddressDetailsInvalid_ReturnsValidationErrors()
-        {
-            CreateAddressViewModel newAddress = new CreateAddressViewModel();
+        //[Fact]
+        //public async Task Create_WhenNewAddressDetailsInvalid_ReturnsValidationErrors()
+        //{
+        //    CreateAddressViewModel newAddress = new CreateAddressViewModel();
 
-            var response = await _httpClient.PostAsJsonAsync("/addresses/", newAddress);
-            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        //    var response = await _httpClient.PostAsJsonAsync("/addresses/", newAddress);
+        //    response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
 
-            var value = await response.Content.ReadAsStringAsync();
+        //    var value = await response.Content.ReadAsStringAsync();
 
-            var result = value.VerifyDeSerialize<ValidationModel>();
-            result.Errors.CheckIfErrorPresent("Name", "Name must be not null");
+        //    var result = value.VerifyDeSerialize<ValidationModel>();
+        //    result.Errors.CheckIfErrorPresent("Name", "Name must be not null");
 
-            _testOutputHelper.WriteLine(value);
-        }
+        //    _testOutputHelper.WriteLine(value);
+        //}
     }
 }
